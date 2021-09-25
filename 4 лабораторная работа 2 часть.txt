@@ -1,0 +1,13 @@
+#include <stdio.h>
+
+int main()
+{
+    int d;
+    float L, p = 3.14;
+    printf("Введите значение переменной d: ");
+    scanf("%d", &d);
+    L = p * (float)d;
+    printf("Длина окружности: %f\n", L);
+
+    return 0;
+}
