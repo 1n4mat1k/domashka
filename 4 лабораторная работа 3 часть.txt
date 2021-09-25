@@ -1,0 +1,15 @@
+
+#include <stdio.h>
+
+int main()
+{
+    float a, b, S;
+    printf ("Введите значение переменной a: ");
+    scanf ("%f", &a);
+    printf ("Введите значение переменной b: ");
+    scanf ("%f", &b);
+    S = (a+b)/2;
+    printf ("Среднее арифметическое: %f", S);
+    
+    return 0;
+}
