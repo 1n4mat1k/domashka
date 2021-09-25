@@ -1,0 +1,16 @@
+#include <stdio.h>
+
+int main()
+{
+    int a, b, P, S;
+    printf("Введите значение переменной a: ");
+    scanf("%d", &a);
+    printf("Введите значение переменной b: ");
+    scanf("%d", &b);
+    P = 2 * (a + b);
+    printf("Периметр прямоугольника: %d\n", P);
+    S = a * b;
+    printf("Площадь прямоугольника: %d\n", S);
+
+    return 0;
+}
