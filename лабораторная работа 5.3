@@ -1,0 +1,17 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+int main()
+{
+    float a, b, c, d;
+    printf("Введите координаты точки A: ");
+    scanf("%f", &a);
+    printf("Введите координаты точки B: ");
+    scanf("%f", &b);
+    c = (a - b) / 2;
+    c = fabs(c);
+    d = c * c;
+    printf("Вывод произведение длин отрезков AC и BC: %f", d);
+
+    return 0;
+}
