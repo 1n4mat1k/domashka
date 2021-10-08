@@ -1,0 +1,30 @@
+#include <stdio.h>
+
+int main()
+{
+    int a, b, c, d, sum, raz, umn;
+    float ch;
+    
+    printf ("Введите значение переменной a: ");
+    scanf ("%d", &a);
+    printf ("Введите значение переменной b: ");
+    scanf ("%d", &b);
+    
+    if (a == 0 || b == 0 )
+    {
+        printf("Введите значение переменной неравное 0");
+    }
+    
+    else  
+    {
+        c = a * a;
+        d = b * b;
+        sum = c + d;
+        raz = c - d;
+        umn = c * d;
+        ch = (float)c / d;
+        printf ("%d\n%d\n%d\n%f", sum, raz, umn, ch);
+    }
+    
+    return 0;
+}
