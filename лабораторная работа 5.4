@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+int main()
+{
+    float x1, x2, y1, y2, a, b, c, d, P, S;
+    printf ("Введите коордтнаты первой вершины: ");
+    printf ("\nx1 = ");
+    scanf ("%f", &x1);
+    printf ("y1 = ");
+    scanf ("%f", &y1);
+    
+    printf ("\nВведите коордтнаты противоположной вершины: ");
+    printf ("\nx2 = ");
+    scanf ("%f", &x2);
+    printf ("y2 = ");
+    scanf ("%f", &y2);
+    
+    a = x1;
+    b = y2;
+    c = x2;
+    d = y1;
+    
+    P = 2 * (sqrt((a-x1)*(a-x1)+(b-y1)*(b-y1)) + sqrt((c-x1)*(c-x1)+(d-y1)*(d-y1)));
+    printf("\nПериметр прямоугольника равен: %f\n", P);
+    S = (sqrt((a-x1)*(a-x1)+(b-y1)*(b-y1)) * sqrt((c-x1)*(c-x1)+(d-y1)*(d-y1)));
+    printf("Площадь прямоугольника равна: %f", S);
+
+    return 0;
+}
