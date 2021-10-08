@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+int main()
+{
+    float a, b, c, d, e, f;
+    printf("Введите кооррдинату точки A: ");
+    scanf("%f", &a);
+    printf("Введите кооррдинату точки B: ");
+    scanf("%f", &b);
+    printf("Введите кооррдинату точки C: ");
+    scanf("%f", &c);
+    
+    printf("Длина отрезка AC: ");
+    d = c - a;
+    d = fabs(d);
+    printf("%f\n", d);
+    
+    printf("Длина отрезка BC: ");
+    e = c - b;
+    e = fabs(e);
+    printf("%f\n", e);
+    
+    printf("Сумма отрезков AC И BC: ");
+    f = d + e;
+    f = fabs(f);
+    printf("%f\n", f);
+    
+    return 0;
+}
