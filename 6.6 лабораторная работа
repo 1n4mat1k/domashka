@@ -1,0 +1,13 @@
+#include <stdio.h>
+int main()
+{
+    int a, b;
+    printf("Введите значение переменной A: ");
+    scanf("%d", &a);
+    b = a * a; // 2 степень
+    b = b * b; // 4 степнь 
+    b = b * b; // 8 степень
+    printf("A в степени 8 = ");
+    printf("%d", b);
+    return 0;
+}
