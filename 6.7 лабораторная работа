@@ -1,0 +1,17 @@
+#include <stdio.h>
+int main()
+{
+    int a, b, c;
+    printf("Введите значение переменной A: ");
+    scanf("%d", &a);
+    b = a * a; // 2 степень
+    c = b * a; // 3 степень
+    b = c * c; // 6 степень
+    a = b * b; // 12 степень
+    b = a * c; // 15 степень
+    
+    
+    printf("A в степени 15 = ");
+    printf("%d", b);
+    return 0;
+}
