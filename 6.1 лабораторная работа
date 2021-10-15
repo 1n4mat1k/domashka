@@ -1,0 +1,15 @@
+#include <stdio.h>
+int main()
+{
+    int a, b, c;
+    printf("Введите значение переменной A: ");
+    scanf("%d", &a);
+    printf("Введите значение переменной B: ");
+    scanf("%d", &b);
+    c = a;
+    a = b;
+    printf("\nЗначение переменной A: %d\n", a);
+    b = c;
+    printf("Значение переменной B: %d\n", b);
+    return 0;
+}
