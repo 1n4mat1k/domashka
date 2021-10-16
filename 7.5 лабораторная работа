@@ -1,0 +1,17 @@
+#include <stdio.h>
+int main()
+{
+    float a, b, x;
+    printf("Введите значение переменной A: ");
+    scanf("%f", &a);
+    printf("Введите значение переменной B: ");
+    scanf("%f", &b);
+    if (a == 0){
+        printf("Введите значение A не равное 0");
+    }
+    else{
+        x = -b/a;
+        printf("Переменная x равна: %f", x);
+    }
+    return 0;
+}
