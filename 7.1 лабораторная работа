@@ -1,0 +1,13 @@
+#include <stdio.h>
+int main()
+{
+    float a, b, c, d, p;
+    printf("Введите значение угла в градусах ");
+    scanf("%f", &a);
+    p = 3.14;
+    b = p/180;
+    c = a * b;
+    printf("Количество радиан в угле: %f", c);
+    
+    return 0;
+}
