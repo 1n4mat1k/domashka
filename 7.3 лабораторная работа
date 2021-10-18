@@ -1,0 +1,20 @@
+#include <stdio.h>
+
+int main()
+{
+    float x, y, a, b, c;
+    printf("Сколько кг конфет: ");
+    scanf("%f", &x);
+    printf("Сколько стоит %.1f кг конфет: ", x);
+    scanf("%f", &y);
+    
+    b = y / x;
+    printf("Столько рублей стоит 1 кг конфет: %.1f\n", b);
+    
+    printf("\nСколько Y кг конфет: ");
+    scanf("%f", &a);
+    c = b * a;
+    printf("Столько стоит Y кг этих же конфет: %.1f", c);
+    
+    return 0;
+}
