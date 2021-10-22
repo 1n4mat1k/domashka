@@ -1,0 +1,19 @@
+#include <stdio.h>
+
+int main()
+{
+    int a, b, c;
+    printf("Введите год: ");
+    scanf("%d", &a);
+    
+    if (a % 100 == 0){
+        b = a / 100;
+        printf("%d век", b);
+    }
+    if (a % 100 > 0){
+        b = a / 100;
+        c = b + 1;
+        printf("%d век", c);
+    }
+    return 0;
+}
