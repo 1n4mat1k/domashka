@@ -1,0 +1,13 @@
+#include <stdio.h>
+
+int main()
+{
+    int n;
+    printf("Количество секунд прошедших с начала суток: ");
+    scanf("%d", &n);
+    while (n > 60){
+        n = n - 60;
+    }
+    printf("Количество секунд: %d", n);
+    return 0;
+}
