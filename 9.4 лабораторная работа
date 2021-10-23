@@ -1,0 +1,22 @@
+#include <stdio.h>
+
+int main()
+{
+    int a, b, c, d, s, x;
+    printf("Введите длину прямоугольника (A): ");
+    scanf("%d", &a);
+    printf("Введите ширину прямоугольника (B): ");
+    scanf("%d", &b);
+    printf("Введите длину квадрата (C): ");
+    scanf("%d", &c);
+    
+    s = a * b;
+    d = s / (c*c);
+    printf("\nКоличество квадратов: %d", d);
+    
+    x = s - c*c*d;
+    printf("\nОстаточная площадь: %x", x);
+    
+
+    return 0;
+}
