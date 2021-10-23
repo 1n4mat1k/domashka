@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+int main()
+{
+    int k;
+    printf("Введите номер дня: ");
+    scanf("%d", &k);
+    
+    if (k % 7 == 0){
+        printf("Номер дня недели: 0");
+    }
+    else{
+        
+        while (k > 7){
+            k = k - 7;
+        }
+        printf("Номер дня недели: %d", k);
+    }
+    
+    return 0;
+}
