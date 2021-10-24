@@ -1,0 +1,20 @@
+#include <stdio.h>
+
+int main()
+{
+    int n, k, i, s, p;
+    printf("Введите число N (день недели) когда оно было 1 января: ");
+    scanf("%d", &n);
+    
+    printf("Введите число K: ");
+    scanf("%d", &k);
+    
+    while (k > 7){
+        k = k - 7;
+    }
+    s = 7 - 1 - (7 - n);
+    p = s + k;
+    printf("Номер дня недели: %d", p);
+
+    return 0;
+}
