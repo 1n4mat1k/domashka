@@ -1,0 +1,33 @@
+#include <stdio.h>
+
+int main()
+{
+    int a, b, c;
+    printf("Введите значение числа a: ");
+    scanf("%d", &a);
+    if (a < 0){
+        printf("отрицательное ");
+        if (a % 2 == 0){
+            printf("чётное ");
+    }
+        else if (a % 2 == 1 || a % 2 == -1){
+            printf("нечётное ");
+    }
+    printf("число");
+    }
+    else if (a > 0){
+        printf("положительное ");
+        if (a % 2 == 0){
+            printf("чётное ");
+    }
+        else if (a % 2 == 1){
+            printf("нечётное ");
+    }
+    printf("число");
+    }
+    else if (a == 0){
+        printf ("нулевое число");
+    }
+
+    return 0;
+}
