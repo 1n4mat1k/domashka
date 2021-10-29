@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    float a, b, c, d;
+    printf("Введите значение переменной A: ");
+    scanf("%f", &a);
+    printf("Введите значение переменной B: ");
+    scanf("%f", &b);
+    printf("Введите значение переменной C: ");
+    scanf("%f", &c);
+    
+    if (abs(a - b) < abs(a - c)){
+        d = abs(a - b);
+        printf("Точка B лежит ближе к точке A чем точка C\n");
+        printf("Расстояние между точками равно %.1f", d);
+    }
+    else if (abs(a - c) < abs(a - b)){
+        d = abs(a - c);
+        printf("Точка C лежит ближе к точке A чем точка B\n");
+        printf("Расстояние между точками равно %.1f", d);
+    }
+
+    return 0;
+}
