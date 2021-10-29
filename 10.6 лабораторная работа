@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+int main()
+{
+    float a, b, c;
+    printf("Введите значение длины a: ");
+    scanf("%f", &a);
+    printf("Введите значение длины b: ");
+    scanf("%f", &b);
+    printf("Введите значение длины c: ");
+    scanf("%f", &c);
+    
+    if (c*c == a*a + b*b || a*a == b*b + c*c || b*b == a*a + c*c){
+        printf ("Треугольник прямоугольный");
+    }
+    else{
+        printf ("Данный треугольник не прямоугольный");
+    }
+
+    return 0;
+}
