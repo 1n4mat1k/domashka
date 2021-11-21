@@ -1,0 +1,146 @@
+#include <stdio.h>
+
+int main()
+{
+    int a, b, c;
+    printf("Введите количество учебных задания: ");
+    scanf("%d", &a);
+    
+    b = a / 10;
+    
+    if (a == 1){
+        printf("Одно учебное задание");
+    }
+    if (a > 1 && a < 5){
+        switch (a % 10){
+            case 2:
+                printf("Два ");
+                break;
+            case 3:
+                printf("Три ");
+                break;
+            case 4:
+                printf("Четыре ");
+                break;
+            
+        }
+    }
+    else if (a > 4 && a < 10){
+        switch (a % 10){
+            case 5:
+                printf("Пять ");
+                break;
+            case 6:
+                printf("Шесть ");
+                break;
+            case 7:
+                printf("Семь ");
+                break;
+            case 8:
+                printf("Восемь ");
+                break;
+            case 9:
+                printf("Девять ");
+                break;
+        }
+    }
+    else if (a > 9 && a < 20){
+        switch (a % 20){
+            case 10:
+                printf("Десять ");
+                break;
+            case 11:
+                printf("Одиннадцать ");
+                break;
+            case 12:
+                printf("Двенадцать ");
+                break;
+            case 13:
+                printf("Тринадцать ");
+                break;
+            case 14:
+                printf("Четырнадцать ");
+                break;
+            case 15:
+                printf("Пятнадцать ");
+                break;
+            case 16:
+                printf("Шестнадцать ");
+                break;
+            case 17:
+                printf("Семнадцать ");
+                break;
+            case 18:
+                printf("Восемнадцать ");
+                break;
+            case 19:
+                printf("Девятнадцать ");
+                break;
+        }
+        printf("учебных заданий");
+    }
+    else if (a > 19 && a < 41){
+        switch(a / 10){
+            case 2:
+                printf("Двадцать ");
+                break;
+            case 3:
+                printf("Тридцать ");
+                break;
+            case 4:
+                printf("Сорок ");
+                break;
+        }
+        if (a % 10 == 1){
+            printf("одно учебное задание");
+        }
+        if (a % 10 < 5 && a % 10 > 1){
+            switch (a % 10){
+                case 2:
+                printf("два ");
+                    break;
+                case 3:
+                    printf("три ");
+                    break;
+                case 4:
+                    printf("четыре ");
+                    break;
+                    
+            }
+        }
+        if (a % 10 > 4){
+            switch (a % 10){
+                case 5:
+                    printf("пять ");
+                    break;
+                case 6:
+                    printf("шесть ");
+                    break;
+                case 7:
+                    printf("семь ");
+                    break;
+                case 8:
+                    printf("восемь ");
+                    break;
+                case 9:
+                    printf("девять ");
+                    break;
+                }
+            }
+        }
+    
+    if (a > 1 && a < 5){
+        printf("учебных задания");
+    }
+    if (a > 4 && a < 10){
+        printf("учебных заданий");
+    }
+    if ((a % 10 == 0 || a % 10 > 4) && b > 1 && b < 5){
+        printf("учебных заданий");
+    }
+    if (a % 10 > 1 && a % 10 < 5 && b > 1 && b < 5){
+        printf("учебных задания");
+    }
+    if (a > 40){
+        printf("Введите другое значение");
+    }
