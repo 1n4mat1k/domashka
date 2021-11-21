@@ -1,0 +1,64 @@
+#include <stdio.h>
+#include <conio.h>
+#include <stdlib.h>
+int main (){
+    int n;
+    char c;
+    printf("Введите первое направление C: ");
+    scanf("%c", &c);
+    printf("Введите второе направление N: ");
+    scanf("%d", &n);
+    switch (c) {
+        case 'N':
+            switch (n) {
+                case 1:
+                    printf("W");
+                    break;
+                case 0:
+                    printf("N");
+                    break;
+                case -1:
+                    printf("E");
+                    break;
+                }
+            break;
+        case 'E':
+            switch (n) {
+                case 1:
+                    printf("N");
+                    break;
+                case 0:
+                    printf("E");
+                    break;
+                case -1:
+                    printf("S");
+                    break;
+                }
+        case 'S':
+            switch (n) {
+                case 1:
+                    printf("E");
+                    break;
+                case 0:
+                    printf("S");
+                    break;
+                case -1:
+                    printf("W");
+                    break;
+            }
+            break;
+        case 'W':
+            switch (n) {
+                case 1:
+                    printf("S");
+                    break;
+                case 0:
+                    printf("W");
+                    break;
+                case -1:
+                    printf("N");
+                    break;
+            }
+    }
+    return 0;
+}
