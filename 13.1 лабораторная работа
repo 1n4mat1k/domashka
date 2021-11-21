@@ -1,0 +1,15 @@
+#include <stdio.h>
+int main (){
+    float a;
+    float i;
+    float n;
+    float s;
+    printf ("Введите стоимость конфет за 1 кг: ");
+    scanf("%f", &a);
+    for (i = 0.1; i < 1.1; i = i + 0.1){
+        n = n + 0.1;
+        s = n * a;
+        printf("%.2f кг конфет = %.2f руб.\n",n ,s);
+    }
+    return 0;
+}
