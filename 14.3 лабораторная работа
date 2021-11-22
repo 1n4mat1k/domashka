@@ -1,0 +1,15 @@
+#include <stdio.h>
+
+int main()
+{
+    int a, b, c, i, n, k;
+    printf("Введите число n: ");
+    scanf("%d", &n);
+    b = 1;
+    for (a = 0; b < n; b += a){
+        a++;
+    }
+    printf("Ответ: %d", b);
+
+    return 0;
+}
