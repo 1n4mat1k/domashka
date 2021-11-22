@@ -1,0 +1,23 @@
+#include <stdio.h>
+
+int main()
+{
+    float a, b, c, i, k, p;
+    printf("Введите количество P процентов: ");
+    scanf("%f", &p);
+    b = 1000;
+    k = 0;
+    if (p > 0 && p < 25){
+        while (b < 1100){
+            b = b * (1 + p/100);
+            k++;
+        }
+        printf("Сумма: %f", b);
+        printf("\nКоличество месяцев: %.0f", k);
+    }
+    else{
+        printf("Введите другое число");
+    }
+
+    return 0;
+}
