@@ -1,0 +1,16 @@
+#include <stdio.h>
+
+int main()
+{
+    int a, b, c, i, n;
+    printf("Введите значение длины A: ");
+    scanf("%d", &a);
+    printf("Введите значение длины B: ");
+    scanf("%d", &b);
+    c = a - b;
+    while (b <= c){
+        c -= b;
+    }
+    printf("Длина незанятой части отрезка: %d", c);
+    return 0;
+}
