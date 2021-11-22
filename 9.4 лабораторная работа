@@ -10,13 +10,11 @@ int main()
     printf("Введите длину квадрата (C): ");
     scanf("%d", &c);
     
-    s = a * b;
-    d = s / (c*c);
+    d = (a/c)*(b/c);
     printf("\nКоличество квадратов: %d", d);
     
-    x = s - c*c*d;
-    printf("\nОстаточная площадь: %x", x);
+    x = a * b - d * c * c;
+    printf("\nОстаточная площадь: %d", x);
     
-
     return 0;
 }
