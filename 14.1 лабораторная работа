@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+int main()
+{
+    int a, b, c, i, n;
+    printf("Введите число A: ");
+    scanf("%d", &a);
+    printf("Введите число B: ");
+    scanf("%d", &b);
+    for (i = a; i <= b; i++){
+        n = 0;
+        while (n < a){
+            printf("%d ", a);
+            n++;
+        }
+        printf("\n");
+        a++;
+    }
+
+    return 0;
+}
