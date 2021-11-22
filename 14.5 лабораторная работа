@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+int main()
+{
+    float a, b, c, i, k, p;
+    printf("Введите значение числа A: ");
+    scanf("%f", &a);
+    printf("Введите значение числа B: ");
+    scanf("%f", &b);
+    while (a != b){
+        if (a > b){
+            a = a - b;
+        }
+        else{
+            b = b - a;
+        }
+    }
+    printf("НОД = %.0f", a);
+
+    return 0;
+}
