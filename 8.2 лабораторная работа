@@ -1,0 +1,13 @@
+#include <stdio.h>
+
+int main()
+{
+    int a, b, c;
+    printf("Введите длину отрезка A: ");
+    scanf("%d", &a);
+    printf("Введите длину отрезков B: ");
+    scanf("%d", &b);
+    c = a / b;
+    printf("Максимальное количество отрезков B на отрезке A: %d", c);
+    return 0;
+}
