@@ -1,0 +1,30 @@
+#include <stdio.h> 
+ 
+int main()
+{
+    int a[1000];
+    int n, k, l, i, sum = 0;
+    float b;
+ 
+    printf("Введите количество N элементов массива: ");
+    scanf("%d",&n);
+ 
+    printf("Введите первый номер элемента K: ");
+    scanf("%d",&k);
+ 
+    printf("Введите второй номер элемента L: ");
+    scanf("%d",&l);
+ 
+    for (i=0; i<n; ++i){
+        printf("a[%d] : ",i);
+        scanf("%d",&a[i]);
+    }
+ 
+    for (i = k - 1; i <= l - 1; ++i){ 
+        sum+=a[i];
+    }
+    b = sum / (l - k + 1);
+
+    printf("\nСреднее арифметическое элеметов массива: %f ", b);
+    return 0;
+}
