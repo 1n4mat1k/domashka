@@ -1,0 +1,22 @@
+#include <stdio.h>
+int main()
+{
+    int a[1000], n, i, j;
+    printf("Введите количество N элементов: ");
+    scanf("%d", &n);
+    
+    for (i = 0; i < n; ++i){
+        printf("a[%d] : ", i);
+        scanf("%d", &a[i]);
+    }
+        
+    for (i = 0; i < n; ++i){
+        for (j = i + 1; j < n; ++j){
+            if (a[i] == a[j]){
+                printf("\n%d и %d - номера одинаковых элементов",i ,j);
+            }
+        }
+    }
+ 
+    return 0;
+}
