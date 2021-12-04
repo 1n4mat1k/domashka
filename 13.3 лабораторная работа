@@ -1,14 +1,14 @@
 #include <stdio.h>
 int main() {
     int n, a, b, i;
-    int c = 5;
+    int c = 1;
     printf("Введите число N: ");
     scanf("%d", &n);
-    b = 1 + 3 + 5;
-    for (i = 0; i < n; i++){
+    b = 1;
+    for (i = 0; i < n - 1; i++){
         c += 2;
-        b += c;
-        printf ("Сумма: %d \n", b);
+        b += c;        
     }
+    printf ("Сумма: %d \n", b);
     return 0;
 }
