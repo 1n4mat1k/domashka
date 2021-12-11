@@ -1,15 +1,14 @@
 #include <stdio.h>
-
 int main()
 {
-    int a, b, c, i, n, k;
-    printf("Введите число n: ");
-    scanf("%d", &n);
-    b = 1;
-    for (a = 0; b < n; b += a){
-        a++;
-    }
-    printf("Ответ: %d", b);
-
-    return 0;
+   int n;
+   printf("Введите целое число N: ");
+   scanf ("%d", &n);
+   int k = 0, sum = 0;
+   while (sum < n) {
+       ++k;
+        sum += k;
+   }
+   printf("Число K равно %d, и сумма равна %d", k, sum);
+   return 0;
 }
