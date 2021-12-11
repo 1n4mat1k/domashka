@@ -1,37 +1,20 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <math.h>
-
-int main()
-{
-    float a, b, c, d, x, y, z, i, j, k;
-    printf("Введите значение переменной A: x= ");
+int main() {
+    float n , a, b, i, c, d, e , f;
+    
+    printf("Введите значение числа A: ");
     scanf("%f", &a);
-    printf("Введите значение переменной A: y= ");
-    scanf("%f", &x);
-    
-    printf("\nВведите значение переменной B: x= ");
-    scanf("%f", &b);
-    printf("Введите значение переменной B: y= ");
-    scanf("%f", &y);
-    
-    printf("\nВведите значение переменной C: x= ");
-    scanf("%f", &c);
-    printf("Введите значение переменной C: y= ");
-    scanf("%f", &z);
-    
-    i = (pow(pow(a-b, 2) + pow(x-y, 2), 0.5));// отрезок AB
-    j = (pow(pow(a-c, 2) + pow(x-z, 2), 0.5));// отрезок AC
-    
-    if (i < j){
-        printf("\nТочка B лежит ближе к точке A чем точка C\n");
-        printf("Расстояние между точками равно %.1f", i);
+    printf("Введите значение числа N: ");
+    scanf("%f", &n);
+    f = 1;
+    for (i = 0; i < n ; i++){
+        e += 1;
+        f *= -1;
+        b += f*pow(a, e);
     }
-    else if (j < i){
-        d = abs(a - c);
-        printf("\nТочка C лежит ближе к точке A чем точка B\n");
-        printf("Расстояние между точками равно %.1f", j);
-    }
+    d = 1 + b;
 
+    printf("Ответ: %f", d);
     return 0;
 }
