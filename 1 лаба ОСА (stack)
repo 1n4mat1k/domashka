@@ -1,0 +1,78 @@
+#include <iostream>
+using namespace std;
+
+class stack
+{                  
+    private:
+        int* arr;
+        int top;
+        int N;
+        
+    public:      
+        stack(int m)
+        {
+            top = -1;
+            arr = new int[m];
+            N = m;
+        }
+        
+        ~stack()
+        {
+            delete[] arr;
+        }
+        
+        void add_item(int a)
+        {
+            if (top == N - 1)
+                cout << "Стэк переполнен!" << endl;
+            else
+            {
+                top++;
+                arr[top] = a;
+            }
+        }
+        
+        void extract_item()
+        {
+            if (top >= 0)
+            {
+                cout << arr[top];
+                top--;
+            }           
+            else
+                cout << "Стэк пуст!";
+        }
+};
+
+int main()
+{
+    int znach;
+    int amount;
+    bool r;
+    
+    cout << "Введите количество элементов в массиве: ";
+    cin >> amount;
+    stack element(amount);
+    
+    do{
+        cout << "Введите 1 для добавления элемента\n"
+             << "Введите 0 для извлечения элемента\n"
+             << ":";
+        cin >> r;
+        
+        if (r)
+        {
+            cout << "Введите значение: ";
+            cin >> znach;
+            element.add_item(znach);
+        }
+        else
+        {
+            cout << "Значение равно: ";
+            element.extract_item();
+            cout << endl;
+        }
+    } while (true);
+    
+    return 0;
+}
