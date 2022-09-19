@@ -2,77 +2,94 @@
 using namespace std;
 
 class stack
-{                  
-    private:
-        int* arr;
-        int top;
-        int N;
-        
-    public:      
-        stack(int m)
+{
+private:
+    int* arr;
+    int top;
+    int N;
+
+public:
+    stack(int m)
+    {
+        top = -1;
+        arr = new int[m];
+        N = m;
+    }
+
+    ~stack()
+    {
+        delete[] arr;
+    }
+
+    void add_item(int a)
+    {
+        if (top == N - 1)
+            throw 1;
+        top++;
+        arr[top] = a;
+    }
+
+    int extract_item()
+    {
+        if (top < 0)
         {
-            top = -1;
-            arr = new int[m];
-            N = m;
+            throw 1;
         }
-        
-        ~stack()
+        else
         {
-            delete[] arr;
+            int top1;
+            top1 = arr[top];
+            top--;
+            return top1;
         }
-        
-        void add_item(int a)
-        {
-            if (top == N - 1)
-                cout << "Стэк переполнен!" << endl;
-            else
-            {
-                top++;
-                arr[top] = a;
-            }
-        }
-        
-        void extract_item()
-        {
-            if (top >= 0)
-            {
-                cout << arr[top];
-                top--;
-            }           
-            else
-                cout << "Стэк пуст!";
-        }
+    }
 };
 
 int main()
 {
-    int znach;
+    int value;
     int amount;
     bool r;
-    
+
+    setlocale(LC_ALL, "Rus");
+
     cout << "Введите количество элементов в массиве: ";
     cin >> amount;
     stack element(amount);
-    
-    do{
+
+    do {
         cout << "Введите 1 для добавления элемента\n"
-             << "Введите 0 для извлечения элемента\n"
-             << ":";
+            << "Введите 0 для извлечения элемента\n"
+            << ":";
         cin >> r;
-        
+
         if (r)
         {
-            cout << "Введите значение: ";
-            cin >> znach;
-            element.add_item(znach);
+            try
+            {
+                cout << "Введите значение: ";
+                cin >> value;
+                element.add_item(value);
+                cout << endl;
+            }
+            catch (...)
+            {
+                cout << "Стэк переполнен!" << endl << endl;
+            }
         }
         else
         {
-            cout << "Значение равно: ";
-            element.extract_item();
-            cout << endl;
+            try
+            {
+                cout << "Значение равно: ";
+                cout << element.extract_item() << endl << endl;
+            }
+            catch (...)
+            {
+                cout << "Стэк пуст!" << endl << endl;
+            }
         }
     } while (true);
-    
+
     return 0;
 }
