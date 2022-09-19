@@ -2,79 +2,93 @@
 using namespace std;
 
 class queue
-{ 
-    private:
-        int* arr;
-        int head;
-        int tail;
-        int N;
-        
-    public:
-        queue(int m)
-        {
-            head = 0;
-            tail = 0;
-            arr = new int[m];
-            N = m;
-        }
-        
-        ~ queue()
-        {
-            delete[] arr;
-        }
-        
-        void add_item(int a)
-        {
-            if (head == (tail + 1) % N)
-                cout << "Очередь переполнена!" << endl;
-            else
-            {
-                arr[tail] = a;
-                tail = (tail + 1) % N;
-            }
-        }
-        
-        void extract_item()
-        {
-            if (head != tail)
-            {
-                cout << arr[head];
-                head = (head + 1) % N;
-            }
-            else
-                cout << "Очередь пуста!";
-        }
+{
+private:
+    int* arr;
+    int head;
+    int tail;
+    int N;
+
+public:
+    queue(int m)
+    {
+        head = 0;
+        tail = 0;
+        arr = new int[m];
+        N = m;
+    }
+
+    ~queue()
+    {
+        delete[] arr;
+    }
+
+    void add_item(int a)
+    {
+        if (head == (tail + 1) % N)
+            throw 1;
+        arr[tail] = a;
+        tail = (tail + 1) % N;
+    }
+
+    int extract_item()
+    {
+        int head1;
+        if (head == tail)
+            throw 1;
+        head1 = head;
+        head = (head + 1) % (N);
+        return arr[head1];
+    }
 };
 
 int main()
 {
-    int znach;
+    setlocale(LC_ALL, "Rus");
+
+    int value;
     int amount;
     bool r;
-    
+
     cout << "Введите количество элементов в массиве: ";
     cin >> amount;
     queue element(amount);
-    
-    do{
+
+    do {
         cout << "Введите 1 для добавления элемента\n"
-             << "Введите 0 для извлечения элемента\n"
-             << ":";
+            << "Введите 0 для извлечения элемента\n"
+            << ": ";
         cin >> r;
-        
+
         if (r)
         {
-            cout << "Введите значение: ";
-            cin >> znach;
-            element.add_item(znach);
+
+            try
+            {
+                cout << "Введите значение: ";
+                cin >> value;
+                element.add_item(value);
+                cout << endl;
+            }
+            catch (...)
+            {
+                cout << "Очередь переполнена!" << endl << endl;
+            }
         }
+
         else
         {
-            cout << "Значение равно: ";
-            element.extract_item();
-            cout << endl;
+            try
+            {
+                cout << "Значение равно: ";
+                cout << element.extract_item() << endl << endl;
+            }
+            catch (...)
+            {
+                cout << "Очередь пуста!" << endl << endl;
+            }
         }
     } while (true);
-    
+
     return 0;
 }
