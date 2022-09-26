@@ -1,0 +1,550 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <iomanip>
+#include <Windows.h>
+
+#define max_size 10000
+#define FLIB_H
+
+using namespace std;
+
+struct person
+{
+	string fullname;
+	string dateofbirth;
+	string adress;
+	bool null;
+};
+
+class PersonData
+{
+public:
+	int number_of_lines = 10;
+	person* info;
+
+	PersonData()
+	{
+		info = new person[number_of_lines];
+
+		for (int i = 0; i < number_of_lines; i++)
+			info[i].null = true;
+	}
+
+	person* show_index(int index)
+	{
+		if (info[index].null == false)
+			return info;
+		else
+			throw 1;
+	}
+
+	/*1*/void clean_data(int i)
+	{
+		if (i >= 0 && i < number_of_lines)
+		{
+			info[i].null = true;
+		}
+		else
+			throw 1;
+	}
+
+	/*2*/int search_empty()
+	{
+		for (int i = 0; i < number_of_lines; i++)
+		{
+			if (info[i].null)
+				return (i);
+		}
+		throw 1;
+	}
+
+	/*6*/int search_nearest(string line)
+	{
+		int value = 0;
+		int index = 0;
+
+		for (int i = 0; i < number_of_lines; i++)
+		{
+
+
+			string str_fullaname = info[i].fullname;
+			string str_dateofbirth = info[i].dateofbirth;
+			string str_adress = info[i].adress;
+
+			int value_fullname = str_fullaname.find(line);
+			int value_dateofbirth = str_dateofbirth.find(line);
+			int value_adress = str_adress.find(line);
+
+
+			if (value_fullname > -1 || value_dateofbirth > -1 || value_adress > -1)
+			{
+				return index;
+				++value;
+			}
+
+			++index;
+		}
+		if (value == 0)
+			throw 1;
+	}
+
+	/*7*/ int search_min(int k)
+	{
+		person min = info[0];
+		int index = 0;
+
+		for (int i = 1; i < number_of_lines; i++)
+		{
+			if (ft_strcmp(min, info[i], k) > 0)
+			{
+				min = info[i];
+				index = i;
+			}
+		}
+		return index;
+	}
+
+	/*8*/void sorted_up(int k)
+	{
+		for (int i = 0; i < number_of_lines - 1; i++)
+		{
+			for (int j = 0; j < number_of_lines - i - 1; j++)
+			{
+				if (ft_strcmp(info[j], info[j + 1], k) > 0 || info[j].null) // если порядок неправильный
+				{
+					person buf = info[j + 1];
+					info[j + 1] = info[j];
+					info[j] = buf;
+				}
+			}
+		}
+	}
+
+	/*8, 9*/ int sort_strings(person prsn1, person prsn2, string s1, string s2)	// 1 и 3 столбцы
+	{
+		int value;
+
+		int s1_length = s1.length();
+		int s2_length = s2.length();
+		int biggest_length;
+
+		if (s1_length > s2_length)
+		{
+			biggest_length = s1_length;
+		}
+		else if (s1_length <= s2_length)
+		{
+			biggest_length = s2_length;
+		}
+
+		for (int i = 0; i < biggest_length; i++)
+		{
+			if (s1[i] > s2[i])
+			{
+				value = 1;
+				return value;
+			}
+			else if (s1[i] < s2[i])
+			{
+				value = -1;
+				return value;
+			}
+			else if (s1[i] == s2[i])
+			{
+				continue;
+			}
+		}
+	}
+
+	/*8, 9*/int ft_strcmp(person prsn1, person prsn2, int k)
+	{
+		string s1, s2;
+		int value;
+
+		if (prsn1.null || prsn2.null)
+			return (0);
+
+		if (k == 1)
+		{
+			s1 = prsn1.fullname;
+			s2 = prsn2.fullname;
+			return (sort_strings(prsn1, prsn2, s1, s2));
+		}
+
+		else if (k == 2)	// сортировка 2 столбца
+		{
+			s1 = prsn1.dateofbirth;
+			s2 = prsn2.dateofbirth;
+
+			string str1_day, str2_day,
+				str1_month, str2_month,
+				str1_year, str2_year;
+
+			int str_date1, str_date2;
+
+			for (int i = 6; i < 10; i++)
+			{
+				str1_year.push_back(s1[i]);
+				str2_year.push_back(s2[i]);
+
+				str_date1 = stoi(str1_year);
+				str_date2 = stoi(str2_year);
+			}
+
+			if (str_date1 > str_date2)
+			{
+				value = 1;
+				return value;
+			}
+			else if (str_date1 < str_date2)
+			{
+				value = -1;
+				return value;
+			}
+			else if (str_date1 == str_date2)
+			{
+				for (int i = 3; i < 5; i++)
+				{
+					str1_month.push_back(s1[i]);
+					str2_month.push_back(s2[i]);
+
+					str_date1 = stoi(str1_month);
+					str_date2 = stoi(str2_month);
+				}
+				if (str_date1 > str_date2)
+				{
+					value = 1;
+					return value;
+				}
+				else if (str_date1 < str_date2)
+				{
+					value = -1;
+					return value;
+				}
+				else if (str_date1 == str_date2)
+				{
+					for (int i = 0; i < 2; i++)
+					{
+						str1_day.push_back(s1[i]);
+						str2_day.push_back(s2[i]);
+
+						str_date1 = stoi(str1_day);
+						str_date2 = stoi(str2_day);
+					}
+					if (str_date1 > str_date2)
+					{
+						value = 1;
+						return value;
+					}
+					else if (str_date1 < str_date2)
+					{
+						value = -1;
+						return value;
+					}
+					else if (str_date1 == str_date2)
+					{
+						value = 1;
+						return value;
+					}
+				}
+			}
+		}
+
+		else if (k == 3)
+		{
+			s1 = prsn1.adress;
+			s2 = prsn2.adress;
+			return(sort_strings(prsn1, prsn2, s1, s2));
+		}
+	}
+
+	/*9*/void sorted_down(int k) // сортировка по убыванию
+	{
+		for (int i = 0; i < number_of_lines - 1; i++)
+		{
+			for (int j = 0; j < number_of_lines - i - 1; j++)
+			{
+				if (ft_strcmp(info[j], info[j + 1], k) < 0) // если порядок неправильный
+				{
+					person buf = info[j + 1];
+					info[j + 1] = info[j];
+					info[j] = buf;
+				}
+			}
+		}
+	}
+
+	/*10*/person* read_data(string file)
+	{
+		ifstream ifs;
+		ifs.open(file);
+		if (!ifs.is_open())
+			throw 1;
+
+		number_of_lines = 0;
+		string lines;
+		while (getline(ifs, lines))
+		{
+			++number_of_lines;
+		}
+		ifs.close();
+
+		int i = 0;
+
+		ifs.open(file);
+		while (ifs && i < max_size)
+		{
+			SetConsoleCP(1251);
+			SetConsoleOutputCP(1251);
+
+			string name;
+			ifs >> name;
+			info[i].fullname += name + ' ';	// имя
+			ifs >> name;
+			info[i].fullname += name + ' ';	// фамилия
+			ifs >> name;
+			info[i].fullname += name;		// отчество
+
+			ifs >> info[i].dateofbirth;
+			ifs >> info[i].adress;
+
+			if (info[i].fullname[0] != ' ')
+				info[i].null = false;
+
+			i++;
+		}
+		number_of_lines = i - 1;
+		ifs.close();
+		return info;
+	}
+
+	/*11*/void write_data(string file)
+	{
+		ofstream ifs(file);
+
+		string textfile;
+		for (int i = 0; i < number_of_lines; i++)
+		{
+			if (info[i].null != true)
+			{
+				textfile += info[i].fullname + ' ';
+				textfile += info[i].dateofbirth + ' ';
+				textfile += info[i].adress + '\n';
+			}
+			else
+				continue;
+		}
+
+		ifs << textfile;
+	}
+
+	/*0*/ void get_out()
+	{
+		exit(1);
+	}
+
+};
+
+int main()
+{
+	setlocale(LC_ALL, "Rus");
+
+	PersonData newdata;
+	int choose;
+	int index;
+	string file;
+
+	do {
+		cout << "\n Введите число\n"
+			<< "1 - Очистка структурных перменных\n"
+			<< "2 - Поиск свободной структурной переменной\n"
+			<< "3 - Ввод элементов (полей) структуры с клавиатуры\n"
+			<< "4 - Вывод элементов (полей) структуры на монитор\n"
+			<< "5 - Вывод на экран всех заполненных элементов массива структур\n"
+			<< "6 - Поиск в массиве структур элемента с заданным значением поля или с наиболее близким к нему по значению\n"
+			<< "7 - Поиск в массиве структуры с минимальным значением заданного поля\n"
+			<< "8 - Сортировка массива структур в порядке возрастания заданного поля\n"
+			<< "9 - Сортировка массива структур в порядке убывания заданного поля\n"
+			<< "10 - Чтение файла\n"
+			<< "11 - Запись в файл\n"
+			<< "0 - Выход\n";
+
+		cin >> choose;
+
+		if (choose == 1)
+		{
+			int index;
+			cout << "Введите индекс строчки, которую надо удалить: ";
+			cin >> index;
+			try
+			{
+				newdata.clean_data(index);
+			}
+			catch (...)
+			{
+				cout << "Ошибка" << endl;
+			}
+
+		}
+
+		if (choose == 2)
+		{
+			try
+			{
+				newdata.search_empty();
+			}
+			catch (...)
+			{
+				cout << "Нет пустого элемента" << endl << endl;
+			}
+		}
+
+		if (choose == 3)
+		{
+			cout << "Введите индекс строки: ";
+			cin >> index;
+
+			if (index < newdata.number_of_lines)
+			{
+				string name;
+
+				cout << "Введите фамилию: ";
+				cin >> name;
+				newdata.info[index].fullname = name;
+				cout << "Введите имя: ";
+				cin >> name;
+				newdata.info[index].fullname += ' ' + name;
+				cout << "Введите отчество: ";
+				cin >> name;
+				newdata.info[index].fullname += ' ' + name;
+
+				cout << "Введите дату рождения: ";
+				cin >> newdata.info[index].dateofbirth;
+
+				cout << "Введите адрес проживания : ";
+				cin >> newdata.info[index].adress;
+
+				newdata.info[index].null = false;
+			}
+		}
+
+		if (choose == 4)
+		{
+			cout << "Введите номер строчки, которую хотите увидеть : ";
+			cin >> index;
+
+			try
+			{
+				cout << newdata.info[index].fullname << setw(22)
+					<< newdata.info[index].dateofbirth << setw(35)
+					<< newdata.info[index].adress << endl;
+			}
+			catch (...)
+			{
+				cout << "null" << setw(22)
+					<< "null" << setw(35)
+					<< "null" << endl;
+			}
+		}
+
+		if (choose == 5)
+		{
+			int final_index = newdata.number_of_lines;
+			for (int index = 0; index < final_index; index++)
+			{
+				if (newdata.info[index].null != true)
+				{
+
+					cout << newdata.info[index].fullname << setw(22)
+						<< newdata.info[index].dateofbirth << setw(35)
+						<< newdata.info[index].adress << endl;
+				}
+				else
+				{
+					cout << "null" << setw(22)
+						<< "null" << setw(35)
+						<< "null" << endl;
+				}
+			}
+		}
+
+		if (choose == 6)
+		{
+			string str;
+			try
+			{
+				cout << "Введите информацию для её поиска: ";
+				cin >> str;
+				newdata.search_nearest(str);
+
+				cout << newdata.info[newdata.search_nearest(str)].fullname << setw(22)
+					<< newdata.info[newdata.search_nearest(str)].dateofbirth << setw(35)
+					<< newdata.info[newdata.search_nearest(str)].adress << endl;
+			}
+			catch (...)
+			{
+				cout << "Ничего не найдено" << endl;
+			}
+		}
+
+		if (choose == 7)
+		{
+			int index;
+			cout << "Введите номер столбца для поиска наименьшего элемента (1 - 3): ";
+			cin >> index;
+			cout << "Номер поля (" << index << ") на котором находится наимегьшее значение: " << endl;
+
+			cout << newdata.info[newdata.search_min(index)].fullname << setw(22)
+				<< newdata.info[newdata.search_min(index)].dateofbirth << setw(35)
+				<< newdata.info[newdata.search_min(index)].adress << endl;
+		}
+
+		if (choose == 8)
+		{
+			cout << "Введите номер столбца для сортировки по возрастанию (1 - 3): ";
+			cin >> index;
+			newdata.sorted_up(index);
+			cout << "Структура отсорирована\n";
+		}
+
+		if (choose == 9)
+		{
+			cout << "Введите номер столбца для сортировки по убыванию (1 - 3): ";
+			cin >> index;
+			newdata.sorted_down(index);
+			cout << "Структура отсорирована\n";
+		}
+
+		if (choose == 10)
+		{
+			ifstream ifs;
+			cout << "Введите имя файла или путь к нему: ";
+			cin >> file;
+			ifs.open(file);
+
+			try
+			{
+				newdata.read_data(file);
+				cout << "Файл открыт" << endl;
+			}
+			catch (...)
+			{
+				cout << "Ошибка открытия файла" << endl;
+			}
+		}
+
+		if (choose == 11)
+		{
+			cout << "Введите имя файла или путь к нему: ";
+			cin >> file;
+			newdata.write_data(file);
+			cout << "Файл записан\n";
+		}
+
+		if (choose == 0)
+		{
+			newdata.get_out();
+		}
+	} while (true);
+}
