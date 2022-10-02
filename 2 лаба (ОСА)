@@ -4,7 +4,7 @@
 #include <iomanip>
 #include <Windows.h>
 
-#define max_size 10000
+//#define max_size 10000
 #define FLIB_H
 
 using namespace std;
@@ -293,7 +293,8 @@ public:
 		int i = 0;
 
 		ifs.open(file);
-		while (ifs && i < max_size)
+		//while (ifs && i < max_size)
+		while (ifs && i < number_of_lines)
 		{
 			SetConsoleCP(1251);
 			SetConsoleOutputCP(1251);
@@ -314,7 +315,7 @@ public:
 
 			i++;
 		}
-		number_of_lines = i - 1;
+		//number_of_lines = i - 1;
 		ifs.close();
 		return info;
 	}
@@ -339,10 +340,10 @@ public:
 		ifs << textfile;
 	}
 
-	/*0*/ void get_out()
+	/*0*/ /*void get_out()
 	{
 		exit(1);
-	}
+	}*/
 
 };
 
@@ -544,7 +545,8 @@ int main()
 
 		if (choose == 0)
 		{
-			newdata.get_out();
+			//newdata.get_out();
+			exit(1);
 		}
 	} while (true);
 }
