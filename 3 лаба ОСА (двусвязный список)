@@ -1,0 +1,320 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct item
+{
+    item* next;
+    item* prev;
+    int data;
+
+    string registration_number;
+    string car_brand;
+    int car_mileage;
+};
+
+class CarData
+{
+public:
+    item* info;
+
+    item* first; //Адрес первого элемента списка
+    item* last;  //Адрес последнего элемента списка
+
+    int count;   //Количество элементов в списке
+
+    CarData()
+    {
+        last = NULL;
+        first = NULL;
+        count = 0;
+    }
+
+    /*2*/void add_last(item newitem)
+    {
+        item* ptr = new item;
+
+        ptr->registration_number = newitem.registration_number;
+        ptr->car_brand = newitem.car_brand;
+        ptr->car_mileage = newitem.car_mileage;
+
+        if (first == NULL)
+            first = ptr;
+        ptr->next = NULL;
+        ptr->prev = last;
+        if (last != NULL)
+            last->next = ptr;
+        last = ptr;
+        count++;
+    }
+
+    /*3*/void add_first(item newitem)
+    {
+        item* ptr = new item;
+
+        ptr->registration_number = newitem.registration_number;
+        ptr->car_brand = newitem.car_brand;
+        ptr->car_mileage = newitem.car_mileage;
+
+        ptr->prev = NULL;
+        if (first == NULL)
+        {
+            ptr->next = NULL;
+            first = ptr;
+            last = ptr;
+        }
+        else
+        {
+            first->prev = ptr;
+            ptr->next = first;
+            first = ptr;
+        }
+        count++;
+    }
+
+    /*4*/void del_last_item() //Удаление последнего элемента
+    {
+        item* ptr = new item;
+        ptr = last;
+
+        ptr->next = NULL;
+        last = ptr->prev;
+
+        delete ptr;
+        count--;
+    }
+
+    /*5*/void del_first_item() //Удаление последнего элемента
+    {
+        item* ptr = new item;
+        ptr = first;
+
+        ptr->prev = NULL;
+        first = ptr->next;
+
+        delete ptr;
+        count--;
+    }
+
+    /*6*/item* search_item(string element) //Поиск адреса элемента по значению данных
+    {
+        item* ptr_search = first;
+
+        int index = 0;
+        while (ptr_search != NULL)
+        {
+            if (ptr_search->registration_number != element)
+            {
+                if (ptr_search->car_brand != element)
+                {
+                    int int_element = stoi(element);
+                    if (ptr_search->car_mileage != int_element)
+                    {
+                        ptr_search = ptr_search->next;
+                        ++index;
+                    }
+                    else
+                        return ptr_search;
+                }
+                else
+                    return ptr_search;
+            }
+            else
+                return ptr_search;
+        }
+        throw 1;
+    }
+
+    /*7*/ item* add_item_after_find(item newitem, string value)
+    {
+        item* newptr = new item;
+        item* temp = new item;
+        item* ptr = search_item(value);
+
+        newptr = ptr->next;
+
+        temp->registration_number = newitem.registration_number;
+        temp->car_brand = newitem.car_brand;
+        temp->car_mileage = newitem.car_mileage;
+
+        temp->next = newptr;
+        temp->prev = ptr;
+
+        if (temp->next == NULL) // Если следующий элемент будет NULL
+            temp->prev->next = temp;
+        else
+        {
+            temp->prev->next = temp;
+            temp->next->prev = temp;
+        }
+
+        while (temp != NULL)
+        {
+            temp = temp->prev;
+        }
+
+        ++count;
+        return temp;
+    }
+
+    /*8*/void find_del_item(string value)
+    {
+        item* ptr_place = search_item(value);
+        int index = 0;
+
+        if (ptr_place != first)
+        {
+            if (ptr_place != last) //Если элемент НЕ первый и НЕ последний
+            {
+                ptr_place->prev->next = ptr_place->next;
+                ptr_place->next->prev = ptr_place->prev;
+            }
+            else //Если элемент НЕ первый, но последний
+            {
+                ptr_place->prev->next = NULL;
+                last = ptr_place->prev;
+            }
+        }
+        else
+        {
+            if (ptr_place != last) //Если элемент первый, но НЕ последний
+            {
+                ptr_place->prev = NULL;
+                first = ptr_place->next;
+            }
+            else //Если элемент первый и последний
+            {
+                first = NULL;
+                last = NULL;
+            }
+        }
+        delete ptr_place;
+        count--;
+    }
+};
+
+
+
+int main()
+{
+    setlocale(LC_ALL, "RUS");
+
+    CarData newdata;
+    item newitem;
+    string element;
+    string value;
+    int choose;
+
+    do {
+        cout << "\n1 - Вывод строки\n"
+            << "+ 2 - Добавление элемента в конец списка\n"
+            << "+ 3 - Добавление элемента в начало списка\n"
+            << "+ 4 - Удаление конечного элемента списка\n"
+            << "+ 5 - Удаление начального элемента списка\n"
+            << "+ 6 - Поиск элемента по заданному значению поля структуры\n"
+            << "7 - Добавление элемента после найденного\n"
+            << "+ 8 - Удаление найденного элемента.\n"
+            << "+ 9 - Выход\n";
+
+        cin >> choose;
+        
+        if (choose == 1)        // Вывод данных на экран 
+        {
+            while (newdata.info != NULL)
+            {
+                cout << "(" << newdata.info->registration_number << ", " << newdata.info->car_brand << ", " << newdata.info->car_mileage << ")\t";
+                newdata.info = newdata.info->next;
+            }
+        }
+
+        if (choose == 2)
+        {
+            cout << "Введите регисрационный номер машины: ";
+            cin >> newitem.registration_number;
+
+            cout << "Введите марку машины: ";
+            cin >> newitem.car_brand;
+
+            cout << "Введите пробег машины: ";
+            cin >> newitem.car_mileage;
+            newdata.add_last(newitem);
+        }
+
+        if (choose == 3)
+        {
+            cout << "Введите регисрационный номер машины: ";
+            cin >> newitem.registration_number;
+
+            cout << "Введите марку машины: ";
+            cin >> newitem.car_brand;
+
+            cout << "Введите пробег машины: ";
+            cin >> newitem.car_mileage;
+            newdata.add_first(newitem);
+        }
+
+        if (choose == 4)
+        {
+            newdata.del_last_item();
+        }
+
+        if (choose == 5)
+        {
+            newdata.del_first_item();
+        }
+
+        if (choose == 6)
+        {
+            cout << "Введите значение элемента для его поиска: ";
+            cin >> value;
+            try
+            {
+                cout << "Индекс этого элемента равен " << newdata.search_item(value) << endl;
+            }
+            catch (...)
+            {
+                cout << "Такого элемента нет в списке" << endl;
+            }
+        }
+
+        if (choose == 7)
+        {
+            cout << "Введите регисрационный номер машины: ";
+            cin >> newitem.registration_number;
+
+            cout << "Введите марку машины: ";
+            cin >> newitem.car_brand;
+
+            cout << "Введите пробег машины: ";
+            cin >> newitem.car_mileage;
+
+            try
+            {
+                newdata.add_item_after_find(newitem, value);
+            }
+            catch (...)
+            {
+                cout << "Error";
+            }
+        }
+
+        if (choose == 8)
+        {
+
+            try
+            {
+                newdata.find_del_item(value);
+            }
+            catch (...)
+            {
+                cout << "Error";
+            }
+        }
+
+        if (choose == 9)
+        {
+            exit(1);
+        }
+
+    } while (true);
+}
