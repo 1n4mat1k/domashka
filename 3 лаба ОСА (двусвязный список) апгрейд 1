@@ -11,41 +11,17 @@ struct PersonalData
     PersonalData* info;
 };
 
-//struct Node
-//{
-//protected:
-//    PersonalData data;
-//    Node* next;
-//    Node* prev;
-//};
-
-//struct item
-//{
-//    item* next;
-//    item* prev;
-//    int data;
-//
-//    string registration_number;
-//    string car_brand;
-//    int car_mileage;
-//};
-
 class CarData
 {
 private:
-    struct Node 
+    struct Node
     {
         Node* next;
         Node* prev;
         PersonalData* Data;
     };
 
-    //CarData* next;
-    //CarData* prev;
-
 public:
-    //PersonalData* info;
-
     Node* first; //Адрес первого элемента списка
     Node* last;  //Адрес последнего элемента списка
 
@@ -58,10 +34,28 @@ public:
         count = 0;
     }
 
+    /*1*/PersonalData* output()
+    {
+        PersonalData* ptr_pd = new PersonalData;
+        Node* ptr_n = new Node;
+        PersonalData* arr;
+
+        arr = new PersonalData[count];
+
+        ptr_n = first;
+
+        for (int i = 0; i < count; i++)
+        {
+            arr[i] = *ptr_n->Data;
+            if (ptr_n->next != NULL)
+                ptr_n = ptr_n->next;
+        }
+        return arr;
+    }
+
     /*2*/void add_last(PersonalData newdata)
     {
         PersonalData* ptr_pd = new PersonalData;
-        //CarData* ptr_n = new CarData;
         Node* ptr_n = new Node;
 
         ptr_pd->registration_number = newdata.registration_number;
@@ -76,11 +70,7 @@ public:
             last->next = ptr_n;
         last = ptr_n;
 
-
-
         ptr_n->Data = ptr_pd;
-
-
 
         count++;
     }
@@ -107,6 +97,9 @@ public:
             ptr_n->next = first;
             first = ptr_n;
         }
+
+        ptr_n->Data = ptr_pd;
+
         count++;
     }
 
@@ -138,53 +131,76 @@ public:
     {
         PersonalData* ptr_pd = new PersonalData;
         Node* ptr_n_search = first;
+        int int_element;
 
         int index = 0;
         while (ptr_n_search != NULL)
         {
+            ptr_pd = ptr_n_search->Data;
             if (ptr_pd->registration_number != element)
             {
                 if (ptr_pd->car_brand != element)
                 {
-                    int int_element = stoi(element);
+                    try
+                    {
+                        int_element = stoi(element);
+                    }
+                    catch (...)
+                    {
+                        ++index;
+                        if (index == count)
+                            throw 1;
+                        else
+                        {
+                            ptr_n_search = ptr_n_search->next;
+                            continue;
+                        }
+                    }
                     if (ptr_pd->car_mileage != int_element)
                     {
-                        ptr_n_search = ptr_n_search->next;
                         ++index;
+                        if (index == count)
+                            throw 1;
+                        else
+                        {
+                            ptr_n_search = ptr_n_search->next;
+                            continue;
+                        }
                     }
                     else
-                        return ptr_n_search;
+                        ptr_n_search->Data = ptr_pd;
+                    return ptr_n_search;
                 }
                 else
-                    return ptr_n_search;
+                    ptr_n_search->Data = ptr_pd;
+                return ptr_n_search;
             }
             else
-                return ptr_n_search;
+                ptr_n_search->Data = ptr_pd;
+            return ptr_n_search;
         }
-        throw 1;
     }
 
     /*7*/ Node* add_item_after_find(PersonalData newitem, string value)
     {
         Node* newptr_n = new Node;
-
         Node* temp_n = new Node;
+        Node* ptr_n_search = search_item(value);
         PersonalData* temp_pd = new PersonalData;
 
-        Node* ptr_n = search_item(value);
-
-
-        newptr_n = newptr_n->next;
+        newptr_n = ptr_n_search->next;
 
         temp_pd->registration_number = newitem.registration_number;
         temp_pd->car_brand = newitem.car_brand;
         temp_pd->car_mileage = newitem.car_mileage;
 
+        temp_n->Data = temp_pd;
+
         temp_n->next = newptr_n;
-        temp_n->prev = ptr_n;
+        temp_n->prev = ptr_n_search;
 
         if (temp_n->next == NULL) // Если следующий элемент будет NULL
-            temp_n->prev->next = ptr_n;
+            temp_n->prev->next = temp_n;
         else
         {
             temp_n->prev->next = temp_n;
@@ -234,25 +250,6 @@ public:
         delete ptr_n_place;
         count--;
     }
-
-    PersonalData vivod()
-    {
-        PersonalData* ptr_pd = new PersonalData;
-        Node* ptr_n = new Node;
-        PersonalData* arr;
-
-        arr = new PersonalData[count];
-
-        ptr_n->Data = first->Data;
-
-        for (int i = 0; i < count; i++)
-        {
-            arr[i] = *ptr_n->Data;
-            if (ptr_n->next = NULL)
-                ptr_n->Data = ptr_n->next->Data;
-        }
-        return *arr;
-    }
 };
 
 
@@ -262,6 +259,7 @@ int main()
     setlocale(LC_ALL, "RUS");
 
     CarData car_data;
+    PersonalData* car_data_ptr = new PersonalData[car_data.count];
     PersonalData pers_data;
     string element;
     string value;
@@ -269,31 +267,26 @@ int main()
 
     do {
         cout << "\n1 - Вывод строки\n"
-            << "+ 2 - Добавление элемента в конец списка\n"
-            << "+ 3 - Добавление элемента в начало списка\n"
-            << "+ 4 - Удаление конечного элемента списка\n"
-            << "+ 5 - Удаление начального элемента списка\n"
-            << "+ 6 - Поиск элемента по заданному значению поля структуры\n"
+            << "2 - Добавление элемента в конец списка\n"
+            << "3 - Добавление элемента в начало списка\n"
+            << "4 - Удаление конечного элемента списка\n"
+            << "5 - Удаление начального элемента списка\n"
+            << "6 - Поиск элемента по заданному значению поля структуры\n"
             << "7 - Добавление элемента после найденного\n"
-            << "+ 8 - Удаление найденного элемента.\n"
-            << "+ 9 - Выход\n";
+            << "8 - Удаление найденного элемента.\n"
+            << "9 - Выход\n";
 
         cin >> choose;
 
         if (choose == 1)        // Вывод данных на экран 
         {
-            //while (newdata.info != NULL)
+            car_data_ptr = car_data.output();
+
             for (int i = 0; i < car_data.count; i++)
             {
-                //cout << "(" << pers_data.info->registration_number << ", " << pers_data.info->car_brand << ", " << pers_data.info->car_mileage << ")\t";
-                // 
-                //cout << "(" << pers_data.registration_number << ", " << pers_data.car_brand << ", " << pers_data.car_mileage << ")\t";
-                // 
-                //car_data.info = car_data.info->next;
-                //pers_data.
-
-                car_data.vivod();
+                cout << "(" << car_data_ptr[i].registration_number << ", " << car_data_ptr[i].car_brand << ", " << car_data_ptr[i].car_mileage << ")" << "\t";\
             }
+            cout << endl;
         }
 
         if (choose == 2)
@@ -359,7 +352,7 @@ int main()
 
             try
             {
-                car_data.add_item_after_find(pers_data, value);
+             car_data.add_item_after_find(pers_data, value);
             }
             catch (...)
             {
@@ -369,7 +362,6 @@ int main()
 
         if (choose == 8)
         {
-
             try
             {
                 car_data.find_del_item(value);
