@@ -1,0 +1,583 @@
+#include <iostream>
+#include <string>
+#include <iomanip>
+#include <vector>
+using namespace std;
+
+struct Info
+{
+    string string_info;
+    int int_info;
+};
+
+class Tree
+{
+private:
+    struct Node
+    {
+        Node* left;
+        Node* right;
+        Info* info_ptr = new Info;
+    };
+
+public:
+    Node* root;
+    Node* output_n;
+    int count_elements;
+
+    Tree()
+    {
+        root = NULL;
+    }
+
+    /*1.2 string*/Node* search_item_string(string a)
+    {
+        Node* ptr_n_search = new Node;
+        Node* ptr_n_temp = new Node;
+
+        if (root != NULL)
+        {
+            ptr_n_search = root;
+            ptr_n_temp = ptr_n_search;
+
+            while (ptr_n_search != NULL)
+            {
+                if (ptr_n_search->info_ptr->string_info < a)
+                {
+                    ptr_n_temp = ptr_n_search;
+                    ptr_n_search = ptr_n_search->right;
+                }
+                else if (ptr_n_search->info_ptr->string_info > a)
+                {
+                    ptr_n_temp = ptr_n_search;
+                    ptr_n_search = ptr_n_search->left;
+                }
+                else if (ptr_n_search->info_ptr->string_info == a)
+                {
+                    ptr_n_temp = ptr_n_search;
+                    return ptr_n_search;            // Возвращает найденный элемент 
+                }
+            }
+            return ptr_n_temp;    // здесь не ptr_n_search, т. к. после выполнения цикла while, ptr_n_search будет равен NULL
+        }
+        else
+        {
+            ++count_elements;
+            return ptr_n_search;                    // Возвращение корневого элемента (перого элемента)
+        }
+    }
+
+    /*1.2 int*/Node* search_item_int(int a)
+    {
+        Node* ptr_n_search = new Node;
+        Node* ptr_n_temp = new Node;
+
+        if (root != NULL)
+        {
+            ptr_n_search = root;
+            ptr_n_temp = ptr_n_search;
+
+            while (ptr_n_search != NULL)
+            {
+                if (ptr_n_search->info_ptr->int_info < a)
+                {
+                    ptr_n_temp = ptr_n_search;
+                    ptr_n_search = ptr_n_search->right;
+                }
+                else if (ptr_n_search->info_ptr->int_info > a)
+                {
+                    ptr_n_temp = ptr_n_search;
+                    ptr_n_search = ptr_n_search->left;
+                }
+                else if (ptr_n_search->info_ptr->int_info == a)
+                {
+                    ptr_n_temp = ptr_n_search;
+                    return ptr_n_search;            // Возвращает найденный элемент 
+                }
+            }
+            return ptr_n_temp;    // здесь не ptr_n_search, т. к. после выполнения цикла while, ptr_n_search будет равен NULL
+        }
+        else
+        {
+            ++count_elements;
+            return ptr_n_search;                    // Возвращение корневого элемента (первого элемента)
+        }
+    }
+
+    /*2 string*/Node* search_item_element(string a)
+    {
+        Node* ptr_n_search = new Node;
+        Node* ptr_n_temp = new Node;
+
+        if (root != 0)
+        {
+            ptr_n_search = root;
+            ptr_n_temp = ptr_n_search;
+
+            while (ptr_n_search != NULL)
+            {
+                if (ptr_n_search->info_ptr->string_info < a)
+                {
+                    ptr_n_temp = ptr_n_search;
+                    ptr_n_search = ptr_n_search->right;
+                }
+                else if (ptr_n_search->info_ptr->string_info > a)
+                {
+                    ptr_n_temp = ptr_n_search;
+                    ptr_n_search = ptr_n_search->left;
+                }
+                else
+                {
+                    return ptr_n_search;
+                }
+            }
+            throw 1;
+        }
+    }
+
+    /*2 int*/Node* search_item_element(int a)
+    {
+        Node* ptr_n_search = new Node;
+        Node* ptr_n_temp = new Node;
+
+        if (root != 0)
+        {
+            ptr_n_search = root;
+            ptr_n_temp = ptr_n_search;
+
+            while (ptr_n_search != NULL)
+            {
+                if (ptr_n_search->info_ptr->int_info < a)
+                {
+                    ptr_n_temp = ptr_n_search;
+                    ptr_n_search = ptr_n_search->right;
+                }
+                else if (ptr_n_search->info_ptr->int_info > a)
+                {
+                    ptr_n_temp = ptr_n_search;
+                    ptr_n_search = ptr_n_search->left;
+                }
+                else
+                {
+                    return ptr_n_search;
+                }
+            }
+            throw 1;
+        }
+    }
+
+    /*4.1 int*/Node* search_prev_item_element(int a)
+    {
+        Node* ptr_n_search = new Node;
+        Node* ptr_n_temp = new Node;
+
+        if (root != 0)
+        {
+            ptr_n_search = root;
+            ptr_n_temp = ptr_n_search;
+
+            while (ptr_n_search->left != search_item_element(a) && ptr_n_search->right != search_item_element(a))
+            {
+                if (ptr_n_search->info_ptr->int_info < a)
+                {
+                    ptr_n_temp = ptr_n_search;
+                    ptr_n_search = ptr_n_search->right;
+                }
+                else if (ptr_n_search->info_ptr->int_info > a)
+                {
+                    ptr_n_temp = ptr_n_search;
+                    ptr_n_search = ptr_n_search->left;
+                }
+            }
+            return ptr_n_search;
+        }
+    }
+
+    /*4.2 int*/Node* search_next_left_item_element(int a)
+    {
+        Node* ptr_n_search = new Node;
+        Node* ptr_n_temp = new Node;
+        Node* ptr_n_search_item_element = search_item_int(a);
+
+        if (root != 0)
+        {
+            ptr_n_search = root;
+            ptr_n_temp = ptr_n_search;
+
+            while (ptr_n_search != ptr_n_search_item_element->left)
+            {
+                if (ptr_n_search->info_ptr->int_info < ptr_n_search_item_element->left->info_ptr->int_info)
+                {
+                    ptr_n_temp = ptr_n_search;
+                    ptr_n_search = ptr_n_search->right;
+                }
+                else if (ptr_n_search->info_ptr->int_info > ptr_n_search_item_element->left->info_ptr->int_info)
+                {
+                    ptr_n_temp = ptr_n_search;
+                    ptr_n_search = ptr_n_search->left;
+                }
+            }
+            //throw 1;
+            return ptr_n_search;
+        }
+    }
+
+
+    int count1 = 0;
+    /*1.1 string*/void add_item_string(string a)
+    {
+        Node* new_ptr_n = new Node;
+        Info* new_ptr_i = new Info;
+        Node* ptr_n_temp = new Node;
+        ptr_n_temp = search_item_string(a);
+
+        if (ptr_n_temp->info_ptr->string_info == a)
+            return;
+
+        if (root == NULL)
+            root = new_ptr_n;
+
+        new_ptr_n->info_ptr->string_info = a;
+
+        new_ptr_n->left = NULL;
+        new_ptr_n->right = NULL;
+
+        if (ptr_n_temp->info_ptr->string_info > a)
+            ptr_n_temp->left = new_ptr_n;
+        else
+            ptr_n_temp->right = new_ptr_n;
+
+        ++count1;
+    }
+
+    /*1.1 int*/void add_item_int(int a)
+    {
+        Node* new_ptr_n = new Node;
+        Info* new_ptr_i = new Info;
+        Node* ptr_n_temp = new Node;
+        ptr_n_temp = search_item_int(a);
+
+        if (ptr_n_temp->info_ptr->int_info == a)
+            return;
+
+        if (root == NULL)
+            root = new_ptr_n;
+
+        new_ptr_n->info_ptr->int_info = a;
+
+        new_ptr_n->left = NULL;
+        new_ptr_n->right = NULL;
+
+        if (ptr_n_temp->info_ptr->int_info > a)
+            ptr_n_temp->left = new_ptr_n;
+        else
+            ptr_n_temp->right = new_ptr_n;
+
+        ++count1;
+    }
+
+    vector<string> vector_string;
+    vector<int> vector_integer;
+    /*3*/void output(struct Node* root)
+    {
+
+        if (root == NULL)
+            return;
+        else
+        {
+            try
+            {
+                if (root->info_ptr->string_info.empty())
+                    throw 1;
+
+                else
+                    vector_string.push_back(root->info_ptr->string_info);
+
+            }
+            catch (...)
+            {
+                vector_integer.push_back(root->info_ptr->int_info);
+            }
+        }
+        output(root->left);
+        output(root->right);
+    }
+
+    /*4 int*/Node* delete_element_int(int item)
+    {
+        Node* del_find_element = new Node;
+        Node* tree1 = root;
+        Node* tree2 = root;
+        Node* next_find_left_element = new Node;
+        del_find_element = search_item_element(item);       // Находим элемент в дереве который надо удалить
+
+        /*0*/if (del_find_element->left == NULL && del_find_element->right == NULL)  // Удаление элемента у которого оба следующих элемента NULL /*0 из лекции*/
+        {
+            if (del_find_element == root)
+            {
+                root = NULL;
+            }
+            else
+            {
+                tree2 = search_prev_item_element(item);
+
+                if (tree2->left == del_find_element)
+                    tree2->left = NULL;
+                else
+                    tree2->right = NULL;
+            }
+        }
+
+        /*1*/else if (del_find_element->left == NULL || del_find_element->right == NULL) // Удаление элемента у которого один из следующих элементов NULL /*1 из лекции*/
+        {
+            if (del_find_element == root)
+            {
+                if (del_find_element->right == NULL)
+                    root = del_find_element->left;
+
+                else if (del_find_element->left == NULL)
+                    root = del_find_element->right;
+            }
+            else
+            {
+                tree2 = search_prev_item_element(item);
+
+                if (del_find_element->right == NULL && tree2->left == del_find_element)
+                    tree2->left = del_find_element->left;
+
+                else if (del_find_element->left == NULL && tree2->left == del_find_element)
+                    tree2->left = del_find_element->right;
+
+                else if (del_find_element->right == NULL && tree2->right == del_find_element)
+                    tree2->right = del_find_element->left;
+
+                else if (del_find_element->left == NULL && tree2->right == del_find_element)
+                    tree2->right = del_find_element->right;
+            }
+
+        }
+
+        /*2*/else if (del_find_element->left->right == NULL || del_find_element->right->left == NULL)
+        {
+            if (del_find_element == root)
+            {
+                Node* root_right = root->right;
+                if (del_find_element->left->right == NULL)
+                {
+                    del_find_element->left->right = root->right;
+                    root = del_find_element->left;
+                }
+
+                else if (del_find_element->right->left == NULL)
+                {
+                    del_find_element->right->left = root->left;
+                    root = del_find_element->right;
+                }
+            }
+            else
+            {
+                tree2 = search_prev_item_element(item);
+
+                /*2.1*/if (tree2->left == del_find_element && del_find_element->left->right == NULL)
+                {
+                    tree2->left = del_find_element->left;
+                    del_find_element->left->right = del_find_element->right;
+                }
+
+                /*2.2*/else if (tree2->right == del_find_element && del_find_element->right->left == NULL)
+                {
+                    tree2->right = del_find_element->right;
+                    del_find_element->right->left = del_find_element->left;
+                }
+
+                /*2.3*/else if (tree2->left == del_find_element && del_find_element->right->left == NULL)
+                {
+                    tree2->left = del_find_element->right;
+                    del_find_element->right->left = del_find_element->left;
+                }
+
+                /*2.4*/else if (tree2->right == del_find_element && del_find_element->left->right == NULL)
+                {
+                    tree2->right = del_find_element->left;
+                    del_find_element->left->right = del_find_element->right;
+                }
+            }
+        }
+
+        /*3*/else if (del_find_element->left != NULL && del_find_element->right != NULL) // Удаление элемента у которого оба следующих элемента не NULL  /*3 из лекции*/
+        {
+            next_find_left_element = del_find_element->left;
+
+            Node* next_changing_element = new Node;
+            Node* prev_last_right_element = new Node;
+            next_changing_element = del_find_element->left;
+
+            if (del_find_element == root)
+            {
+                while (next_changing_element->right != NULL)    // Идёт обход впрво от следующего элемента после удаляемого, до значения NULL 
+                {
+                    prev_last_right_element = next_changing_element;
+                    next_changing_element = next_changing_element->right;
+                    if (next_changing_element->right == NULL)   // Если следующий элемент равен NULL, то следующий элемент предпоследнего элемента равен NULL
+                    {
+                        prev_last_right_element->right = NULL;
+                    }
+                }
+
+                next_changing_element->right = del_find_element->right;
+
+                next_changing_element->right = root->right;
+                next_changing_element->left = root->left;
+                root = next_changing_element;
+            }
+
+            else
+            {
+                tree2 = search_prev_item_element(item);
+
+                while (next_changing_element->right != NULL)    // Идёт обход впрво от следующего элемента после удаляемого, до значения NULL 
+                {
+                    prev_last_right_element = next_changing_element;
+                    next_changing_element = next_changing_element->right;
+                    if (next_changing_element->right == NULL)   // Если следующий элемент равен NULL, то следующий элемент предпоследнего элемента равен NULL
+                    {
+                        prev_last_right_element->right = NULL;
+                    }
+                }
+
+                if (tree2->left == del_find_element)    // Если элемент стоит слева от его предшествующего
+                {
+                    next_changing_element->right = del_find_element->right;
+                    next_changing_element->left = next_find_left_element;
+                    tree2->left = next_changing_element;
+                }
+
+                else                                    //Если элемент стоит справа от его предшествующего
+                {
+                    next_changing_element->right = del_find_element->right;
+                    next_changing_element->left = next_find_left_element;
+                    tree2->right = next_changing_element;
+                }
+            }
+        }
+
+        --count1;
+        return root;
+    }
+};
+
+int main()
+{
+    Tree tree;
+    Info data_info;
+    int choose;
+
+    setlocale(LC_ALL, "ru");
+
+    do {
+        cout << "\n1 - Добавление элемента\n"
+            << "2 - Поиск элемента\n"
+            << "3 - Обход бинарного дерева\n"
+            << "4 - Удаление объекта из дерева\n"
+            << "5 - Выход\n";
+
+        cin >> choose;
+
+        if (choose == 1)
+        {
+            int integer_info;                   // переменная для перевода из string в int
+
+            cout << "Введите информацию: ";
+            cin >> data_info.string_info;
+
+            try
+            {
+                integer_info = stoi(data_info.string_info);
+                tree.add_item_int(integer_info);
+            }
+            catch (...)
+            {
+                tree.add_item_string(data_info.string_info);
+            }
+            cout << "\n";
+        }
+
+        if (choose == 2)
+        {
+            int integer_find_element;           // переменная для перевода из string в int
+
+            cout << "Введи информацию, которую нужно найти: ";
+            cin >> data_info.string_info;
+
+            try
+            {
+                integer_find_element = stoi(data_info.string_info);
+
+                try
+                {
+                    cout << tree.search_item_element(integer_find_element) << endl;
+                }
+                catch (...)
+                {
+                    cout << "Такой элемент не найден" << endl;
+                }
+            }
+            catch (...)
+            {
+                try
+                {
+                    cout << tree.search_item_element(data_info.string_info) << endl;
+                }
+                catch (...)
+                {
+                    cout << "Такой элемент не найден" << endl;
+                }
+            }
+        }
+
+        if (choose == 3)
+        {
+            tree.output(tree.root);
+
+            for (int i = 0; i < tree.count1; i++)
+            {
+                try
+                {
+                    if (tree.root->info_ptr->string_info.empty())
+                        throw 1;
+                    else
+                        cout << tree.vector_string[i] << " ";
+                }
+                catch (...)
+                {
+                    cout << tree.vector_integer[i] << " ";
+                }
+            }
+            tree.vector_integer.clear();
+            tree.vector_string.clear();
+            cout << endl;
+        }
+
+        if (choose == 4)
+        {
+            int integer_del_element;
+
+            cout << "Введите значение элемента, которое нужно удалить: ";
+            cin >> data_info.int_info;
+            try
+            {
+                tree.delete_element_int(data_info.int_info);
+                cout << "Элемент удалён" << endl;
+            }
+            catch (...)
+            {
+                cout << "Error" << endl;
+            }
+        }
+
+        if (choose == 5)
+            exit(1);
+
+    } while (true);
+}
+
