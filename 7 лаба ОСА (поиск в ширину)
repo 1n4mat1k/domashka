@@ -1,0 +1,491 @@
+// Search in width (7 laba, 2 attempt).cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
+//
+
+#include <iostream>
+#include <vector>
+#include <list>
+#include <queue>
+#include <deque>
+#include <iterator>
+using namespace std;
+
+class Search_width
+{
+private:
+	struct item
+	{
+		int data;
+		item* next;
+		item* prev;
+	};
+
+	item* first;
+	item* last;
+
+	int comprasion_element = 0;
+	int temp;
+
+	int amount_elements;
+	int* visited;
+	int* ways;
+	int count;
+	int count1 = 0;
+
+public:
+	int** arr_matrix_elements;	//массив элементов матрицы
+	/*int amount_elements;
+	int* visited;
+	int* ways;
+	int count;
+	int count1 = 0;*/
+
+	vector <int> vector_element;
+
+	Search_width()
+	{
+		first = NULL;
+		last = NULL;
+	}
+
+	void add(int a) //Добавление элемента в конец списка
+	{
+		item* newitem = new item;
+		newitem->data = a;
+		if (first == NULL)
+			first = newitem;
+		newitem->next = NULL;
+		newitem->prev = last;
+		if (last != NULL)
+			last->next = newitem;
+		last = newitem;
+		++count;
+	}
+
+	int first_data() //Возвращает значение из начала очереди
+	{
+		return first->data;
+	}
+
+	bool empty() //Возвращает true если очередь пустая и false если нет
+	{
+		bool empt;
+		if (first == NULL)
+			empt = true;
+		else
+			empt = false;
+		return empt;
+	}
+
+	void del_first() //Удаление елемента из начала очереди
+	{
+		item* place = first;
+		if (place != last) //Если элемент первый, но НЕ последний
+		{
+			place->next->prev = NULL;
+			first = place->next;
+		}
+		else //Если элемент первый и последний
+		{
+			first = NULL;
+			last = NULL;
+		}
+		delete place;
+		count--;
+	}
+
+	/*1*/void input_matrix(int** arr_matrix, int amount)
+	{
+		arr_matrix_elements = new int* [amount];
+		arr_matrix_elements = arr_matrix;
+
+		amount_elements = amount;
+
+		visited = new int[amount];
+		ways = new int[amount];
+
+		cout << "Матрица сохранена" << endl;
+	}
+
+
+
+	queue <int> MyQueue;
+	deque <int> deque_return;
+
+	deque <int> MyDeque;
+	deque <int> deque_return1;
+
+	/*4*//*void traversal(int element_start)
+	{
+		if (count1 == 0)
+		{
+			visited[element_start] = 1;
+			ways[element_start] = -1;
+			++count1;
+		}
+
+		int unit = first_data();
+
+		del_first();
+
+		for (int i = 0; i < amount_elements; i++)
+		{
+			if ((visited[i] == 0) && (arr_matrix_elements[unit][i] == 1))
+			{
+				vector_element.push_back(arr_matrix_elements[unit][i]);
+				ways[i] = unit;
+				visited[i] = 1;
+				if (comprasion_element == amount_elements)
+				{
+					return;
+				}
+			}
+		}
+
+
+		//do {
+
+
+		//} while (arr_matrix_elements.empty)
+	}*/
+
+	/*4*//*void traversal(int element_start)
+	{
+		for (int i = 0; i < amount_elements; i++)
+		{
+			visited[i] = 0;
+		}
+
+		visited[element_start] = 1;
+
+		MyQueue.push(element_start);
+
+		vector <int> ::iterator i;
+
+		MyQueue.push(element_start);
+
+		while (!MyQueue.empty())
+		{
+			int currVertex = MyQueue.front();
+
+			MyQueue.push(element_start);
+			cout << "Visited " << currVertex << " ";
+
+			MyQueue.pop();
+
+			//for (i = vector_element[currVertex].begin(); i != adjLists[currVertex].end(); ++i)
+			for (i = vector_element.begin(); i != vector_element.end(); ++i)
+			{
+				int adjVertex = *i;
+				if (!visited[adjVertex])
+				{
+					visited[adjVertex] = true;
+					MyQueue.push(adjVertex);
+				}
+			}
+		}
+	}*/
+
+	/*4*//*void traversal(int element_start)
+	{
+		for (int i = 0; i < amount_elements; i++)
+			visited[i] = 0;
+
+		visited[element_start] = 1;
+		MyQueue.push(element_start);
+
+		//int unit = 0;
+		int unit;
+
+		while (!MyQueue.empty())
+		{
+			int current_value = MyQueue.front();
+			cout << "Visited " << current_value + 1 << " " << endl;
+			unit = current_value;
+			MyQueue.pop();
+
+			for (int i = 0; i < amount_elements; i++)
+			{
+				int vertex = i;
+				if ((visited[vertex] == 0) && (arr_matrix_elements[unit][i]) == 1)
+				{
+					visited[vertex] = 1;
+					MyQueue.push(vertex);
+				}
+			}
+		}
+	}*/
+
+	/*4*/void traversal(int element_start, int element_end)
+	{
+		for (int i = 0; i < amount_elements; i++)
+			visited[i] = 0;
+
+		visited[element_start] = 1;
+		MyQueue.push(element_start);
+
+		//int unit = 0;
+		int unit;
+
+		while (!MyQueue.empty())
+		{
+			int current_value = MyQueue.front();
+			//cout << "Visited " << current_value + 1 << " " << endl;
+			deque_return.push_back(current_value + 1);						// Массив возвращает значения посещённых вершин
+			unit = current_value;
+			MyQueue.pop();
+
+			for (int i = 0; i < amount_elements; i++)
+			{
+				int vertex = i;
+				if ((visited[vertex] == 0) && (arr_matrix_elements[unit][i]) == 1)
+				{
+					visited[vertex] = 1;
+					MyQueue.push(vertex);
+				}
+			}
+		}
+
+
+
+
+		/*temp = element_end;
+
+		do {
+			unit = temp;
+
+			try
+			{
+				temp = queue_return.back();
+				for (int i = 0; i < amount_elements; i++)
+				{
+					if (arr_matrix_elements[unit][i] == element_start);
+
+					if(int j = queue_return.back())
+				}
+			}
+			catch (...)
+			{
+				unit = temp;
+
+				cout << "element_visited" << temp << endl;
+			}
+
+
+		} while (!queue_return.empty());*/
+
+		/*int dne = element_end;
+		int count = 0;
+
+		do
+		{
+			count++;
+			dne =
+		} while (true);*/
+
+
+		MyDeque = deque_return;
+
+		while (element_end != MyDeque.back())
+		{
+			MyDeque.pop_back();
+		}
+
+		//MyDeque = deque_return;
+
+		unit = MyDeque.back();
+		MyDeque.pop_back();
+
+		temp = MyDeque.back();
+		//MyDeque.pop_back();
+
+		//while (unit-1 != element_start) 
+		while (temp - 1 != element_start)
+		{
+			deque_return1.push_front(unit);
+
+			while (arr_matrix_elements[unit - 1][temp - 1] != 1)
+			{
+				MyDeque.pop_back();
+				temp = MyDeque.back();
+				//MyDeque.pop_back();
+			}
+
+			//cout << unit << " -> ";
+			
+			//deque_return1.push_front(temp);
+			unit = MyDeque.back();
+			//deque_return1.push_front(unit);
+			
+			//MyDeque.pop_back();
+
+		}
+		//cout << unit << endl;
+		deque_return1.push_front(unit);
+	}
+
+};
+
+
+
+
+int main()
+{
+	setlocale(LC_ALL, "");
+
+	Search_width newdata;
+	int choose;
+	int amount; // Будущее количество элементов в матрице
+	int temp;	// Промежуточная переменная
+	int element_start;
+	int element_end;
+	//int** arr_matrix = new int*[];
+	int** arr_matrix;
+
+	do
+	{
+		cout << "\n\nВведите число\n"
+			<< "1 - ввести данные в матрицу\n"
+			<< "2 - вывод матрицы\n"
+			<< "3 - вывод кратчайшего пути из одной точки в другую\n"
+			<< "4 - вывод обхода всех элементов\n"
+			<< "5 - закончить программу\n";
+
+		cin >> choose;
+
+		if (choose == 1)
+		{
+			cout << "Введите количество элементов в матрице: ";
+			cin >> amount;
+
+			arr_matrix = new int* [amount];
+			for (int i = 0; i < amount; i++)
+			{
+				arr_matrix[i] = new int[amount];
+			}
+
+			cout << endl;
+
+			for (int i = 0; i < amount; i++)
+			{
+				arr_matrix[i][i] = 0;
+				for (int j = i + 1; j < amount; j++) {
+					cout << "Введите расстояние " << i + 1 << " - " << j + 1 << ": ";
+					cin >> temp;
+					arr_matrix[i][j] = temp;
+					arr_matrix[j][i] = temp;
+
+					newdata.vector_element.push_back(temp);
+				}
+			}
+			newdata.input_matrix(arr_matrix, amount);
+		}
+
+		if (choose == 2)
+		{
+			for (int i = 0; i < amount; i++)
+			{
+				for (int j = 0; j < amount; j++)
+					cout << newdata.arr_matrix_elements[i][j] << "\t";
+				cout << endl;
+			}
+		}
+
+
+		/*if (choose == 4)
+		{
+			cout << "Из какой точки начать отсчёт: ";
+			cin >> element_start;
+
+			//cout << "";
+			//cin >> element_end;
+			do {
+				newdata.traversal(element_start);
+
+			} while (!newdata.empty());
+
+			for (int i = 0; i < amount; i++)
+			{
+				cout << newdata.vector_element[i] << " ";
+			}
+
+		}*/
+
+		//if (choose == 4)
+		//{
+		//	cout << "Из какой точки начать отсчёт: ";
+		//	cin >> element_start;
+
+		//	element_start = element_start - 1;
+
+		//	//cout << "";
+		//	//cin >> element_end;
+
+		//	/*do {
+		//		newdata.traversal(element_start);
+
+		//	} while (!newdata.MyQueue.empty());*/
+
+		//	newdata.traversal(element_start);
+
+		//	for (int i = 0; i < amount; i++)
+		//	{
+		//		cout << newdata.vector_element[i] << " ";
+		//	}
+
+		//}
+
+		if (choose == 4)
+		{
+			cout << "Из какой точки начать отсчёт: ";
+			cin >> element_start;
+			element_start = element_start - 1;
+
+			cout << "До какой точки показать маршрут: ";
+			cin >> element_end;
+			//element_end = element_end - 1;
+
+			//cout << "";
+			//cin >> element_end;
+
+			/*do {
+				newdata.traversal(element_start);
+
+			} while (!newdata.MyQueue.empty());*/
+
+			newdata.traversal(element_start, element_end);
+
+			/*for (int i = 0; i < amount; i++)
+			{
+				cout << newdata.vector_element[i] << " ";
+			}*/
+
+			while (!newdata.deque_return.empty())
+			{
+				cout << "Посещена вершина " << newdata.deque_return.front() << endl;
+				newdata.deque_return.pop_front();
+			}
+
+			/*for (int i = 0; i < newdata.queue_return.size(); i++)
+			{
+				cout << "Посещена вершина " << newdata.queue_return.front() << endl;
+				newdata.queue_return.pop();
+			}*/
+
+			cout << endl << "Путь прохождения: " << endl;
+			while (!newdata.deque_return1.empty())
+			{
+				cout << " " << newdata.deque_return1.front();
+				newdata.deque_return1.pop_front();
+			}
+		}
+
+		if (choose == 5)
+		{
+			exit(1);
+		}
+
+
+
+	} while (true);
+}
+
