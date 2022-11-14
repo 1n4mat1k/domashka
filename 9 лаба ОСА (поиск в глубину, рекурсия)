@@ -1,100 +1,21 @@
-// Search in width (7 laba, 2 attempt).cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
-
 #include <iostream>
 #include <vector>
-#include <stack>
 #include <iterator>
 using namespace std;
 
-class Search_width
+class Search_depth
 {
 private:
-	struct item
-	{
-		int data;
-		item* next;
-		item* prev;
-	};
-
-	item* first;
-	item* last;
-
-	int comprasion_element = 0;
-	int temp;
-
-	int element_start_func;
-
-	vector <int> zero_elements;
-	vector <int> MyVector;
-	vector <int> visited;
-	vector <int> index;
-	vector <int> current_count_item;
-	vector <int> returning_variable;
-
 	vector <int> MyVector1;
+	int* ways;
+	int amount_elements;
 
 public:
 	int** arr_matrix_elements;	//массив элементов матрицы
-	int amount_elements;
-	//int* visited;
-	int* ways;
-	int count;
-	int count1 = 0;
-
 	vector <int> vector_element;
 
-	Search_width()
-	{
-		first = NULL;
-		last = NULL;
-	}
-
-	void add(int a) //Добавление элемента в конец списка
-	{
-		item* newitem = new item;
-		newitem->data = a;
-		if (first == NULL)
-			first = newitem;
-		newitem->next = NULL;
-		newitem->prev = last;
-		if (last != NULL)
-			last->next = newitem;
-		last = newitem;
-		++count;
-	}
-
-	int first_data() //Возвращает значение из начала очереди
-	{
-		return first->data;
-	}
-
-	bool empty() //Возвращает true если очередь пустая и false если нет
-	{
-		bool empt;
-		if (first == NULL)
-			empt = true;
-		else
-			empt = false;
-		return empt;
-	}
-
-	void del_first() //Удаление елемента из начала очереди
-	{
-		item* place = first;
-		if (place != last) //Если элемент первый, но НЕ последний
-		{
-			place->next->prev = NULL;
-			first = place->next;
-		}
-		else //Если элемент первый и последний
-		{
-			first = NULL;
-			last = NULL;
-		}
-		delete place;
-		count--;
-	}
+	bool* visited1 = new bool[amount_elements];
+	vector <int> ways1;
 
 	/*1*/void input_matrix(int** arr_matrix, int amount)
 	{
@@ -102,382 +23,45 @@ public:
 		arr_matrix_elements = arr_matrix;
 
 		amount_elements = amount;
-
-		//visited = new int[amount];									// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		ways = new int[amount];
 
 		cout << "Матрица сохранена" << endl;
 
-		//zero_elements[0] = 0;
-		//zero_elements.reserve(amount_elements+1);
-
 		for (int i = 0; i < amount; i++)
 		{
-			//MyVector.push_back(0);
-			//visited.push_back(0);
-			//index.push_back(0);
-			//current_count_item.push_back(0);
-			zero_elements.push_back(0);
-			//vector_return.push_back(0);
+			ways1.push_back(0);
+			visited1[i] = false;
 		}
-		
+
 	}
 
-
-
-	stack <int> MyStack;
-	stack <int> stack_return;
-
-	stack <int> MyStack1;
-	stack <int> stack_return1;
-
-	deque <int> MyDeque;
-	deque <int> deque_return1;
-
-
-	//vector <int> MyVector;				// Находится в private
 	vector <int> vector_return;
 	vector <int> vector_return1;
-	//vector <int> visited;					// Находится в private
-	//vector <int> index;					// Находится в private
-	//vector <int> current_count_item;		// Находится в private
 
-	//int* index = new int;
-	//*index = 0;
-
-	/*4*//*void traversal(int element_start, int element_end)
+	int work_one_time = 0;
+	/*3*/void traversal(int element_start)
 	{
-		for (int i = 0; i < amount_elements; i++)
-			visited[i] = 0;
-
-		visited[element_start] = 1;
-		MyQueue.push(element_start);
-
-		//int unit = 0;
-		int unit;
-
-		while (!MyQueue.empty())
+		if (work_one_time == 0)			// Добавляет первый элемент в массив ТОЛЬКО ОДИН РАЗ, иначе каждый раз при вызове данного метода начальное значение добавлялось каждый раз в конец массива
 		{
-			int current_value = MyQueue.front();
-			//cout << "Visited " << current_value + 1 << " " << endl;
-			deque_return.push_back(current_value + 1);						// Массив возвращает значения посещённых вершин
-			unit = current_value;
-			MyQueue.pop();
-
-			for (int i = 0; i < amount_elements; i++)
-			{
-				int vertex = i;
-				if ((visited[vertex] == 0) && (arr_matrix_elements[unit][i]) == 1)
-				{
-					visited[vertex] = 1;
-					MyQueue.push(vertex);
-				}
-			}
+			vector_return.push_back(element_start + 1);
+			++work_one_time;
 		}
-
-		MyDeque = deque_return;
-
-		while (element_end != MyDeque.back())
-		{
-			MyDeque.pop_back();
-		}
-
-		unit = MyDeque.back();
-		MyDeque.pop_back();
-
-		temp = MyDeque.back();
-
-		while (temp - 1 != element_start)
-		{
-			deque_return1.push_front(unit);
-
-			while (arr_matrix_elements[unit - 1][temp - 1] != 1)
-			{
-				MyDeque.pop_back();
-				temp = MyDeque.back();
-			}
-
-			unit = MyDeque.back();
-		}
-
-		deque_return1.push_front(unit);
-	}*/
-
-	/*4*//*void traversal(int element_start, int element_end)
-	{
-		element_start = element_start - 1;
-		for (int i = 0; i < amount_elements; i++)
-			visited[i] = 0;
-
-
-
-		visited[element_start] = 1;
-		MyStack.push(element_start);
-		stack_return.push(element_start + 1);
-
-		//int unit = 0;
-		int unit;
-
-
-		int* current_count_item = new int[amount_elements];
-		int current_count_value = 0;
-		int* index = new int;
-		*index = 0;
 
 		for (int i = 0; i < amount_elements; i++)
 		{
-			current_count_item[i] = 0;
-		}
-
-		int current_value = MyStack.top();
-
-		unit = current_value;
-
-		while (stack_return.size() != amount_elements)
-		{
-
-			for (*index = 0; *index < amount_elements; ++(*index))
+			if (!visited1[i] && arr_matrix_elements[element_start][i] == 1)
 			{
-				int vertex = *index;
-				if ((visited[vertex] == 0) && (arr_matrix_elements[unit][*index]) == 1)
-				{
-					visited[vertex] = 1;
-					MyStack.push(vertex);
-					stack_return.push((*index) + 1);
-					//current_count_item[unit] = ++current_count_value;
-					current_count_item[unit] += 1;
-
-					unit = *index;
-					*index = -1;					// здесь значение минус один, потому что при переходе в цикл for *index будет принимать значение 0, а не -1;
-					++current_count_value;
-				}
-			}
-
-			if (current_count_item[(*index) - 1] == 0)			// Отступ назад, если у это вершины нет продолжающих вершин (не является родителем, пример: вершины 6, 7)
-			{
-				MyStack.pop();
-				unit = MyStack.top();
-			}
-			else												// Отступ назад, если все пути в эту вершину уже просмотрены (пройдены, пример: вершина 2)
-			//if(current_count_item[(*index) - 1] != 0)
-			{
-				int count1 = 0;
-				int count2 = 0;
-
-				for (int i = 0; i < amount_elements; i++)
-				{
-					if (arr_matrix_elements[(*index) - 1][i] == 1 && visited[i] == 1)
-					{
-						++count1;
-					}
-				}
-
-				for (int i = 0; i < amount_elements; i++)
-				{
-					if (arr_matrix_elements[(*index) - 1][i] == 1)
-					{
-						++count2;
-					}
-				}
-
-				if (count1 == count2)
-				{
-					MyStack.pop();
-					unit = MyStack.top();
-				}
+				ways1[i] = element_start;
+				visited1[element_start] = true;
+				vector_return.push_back(i + 1);
+				traversal(i);
 			}
 		}
+	}
 
-		MyStack1 = stack_return;
-
-		while (element_end != MyStack1.top())
-		{
-			MyStack1.pop();
-		}
-
-		unit = MyStack1.top();
-		MyStack1.pop();
-
-		temp = MyStack1.top();
-
-		while (temp - 1 != element_start)
-		{
-			stack_return1.push(unit);			// ??????????
-
-			while (arr_matrix_elements[unit - 1][temp - 1] != 1)
-			{
-				MyStack1.pop();
-				temp = MyStack1.top();
-			}
-
-			unit = MyStack1.top();
-		}
-
-		stack_return1.push(unit);				// ??????????
-	}*/
-
-	
-	//vector <int> zero_elements;				// находится теперь в private
-	//zero_elements[0] = 0;						// находится теперь в методе input_matrix
-
-
-	/*4*/void traversal(int element_start, int element_end)
+	/*3.1*/void output_route(int element_start, int element_end)
 	{
-		//element_start = element_start - 1;					// Чтобы начиналось не с единицы, а с нуля
-		if (zero_elements[0] == 0)							// Сработает только 1 раз
-		{
-			for (int i = 0; i < amount_elements; i++)
-			{
-				//visited[i] = 0;
-				visited.push_back(0);
-				//current_count_item[i] = 0;					// Счётчик количества дорог (родительской точки), то есть пока родительская точка не посетит все дочерние точки она не сделает шаг назад
-				current_count_item.push_back(0);
-				index.push_back(0);
-			}
-
-			element_start = element_start - 1;
-			element_start_func = element_start;
-
-			visited[element_start] = 1;						// Начальной вершине присваиваем значение пройденной вершины
-			MyVector.push_back(element_start);				// Работает со значениями в этом методе
-			vector_return.push_back(element_start + 1);		// Возвращает значения элементов в мэине
-
-			returning_variable.push_back(0);
-
-			zero_elements[0] = 1;						// Чтобы этото метод сработал только один раз	
-		}
-
-		//visited[element_start] = 1;
-		//MyVector.push_back(element_start);					// Работает со значениями в этом методе
-		//vector_return.push_back(element_start + 1);			// Возвращает значения элементов в мэине
-
-		//int unit = 0;
-		//int unit = MyVector.back();						// ????????
-
-
-		//int* current_count_item = new int[amount_elements];
-		//int current_count_value = 0;
-
-		//int* index = new int;
-		//*index = 0;
-
-		for (int i = 0; i < amount_elements; i++)		// Определяем вес каждой вершины (сколько дочерних вершин у каждой точки)
-		{
-			current_count_item[i] = 0;
-		}
-
-		while (vector_return.size() != amount_elements)																			// ??????????????????????????????????????????
-		{
-			for (int i = 0; i < amount_elements; i++)
-			{
-				if (visited[i] == 0 && arr_matrix_elements[MyVector.back()][i] != 0)
-				{
-					visited[i] = 1;
-					MyVector.push_back(i);
-					vector_return.push_back(i + 1);				// Например вместо 0 будет 1, (потому что не может быть 0)
-					current_count_item[MyVector.back()] += 1;
-
-					returning_variable[0] += 1;
-					traversal(element_start_func, element_end);
-				}
-			}
-
-			//if (vector_return.size() == amount_elements)
-			//{
-				//zero_elements[0] = 0;
-			//}
-
-			if (current_count_item[index[MyVector.back()]] == 0)
-			{
-				MyVector.pop_back();
-				if (vector_return.size() == amount_elements && returning_variable[0] == 1)			// Удаление всех заданных переменных после прохода всех точек		// ==1, потому что после работы цикла while (находится на пару строк выше) значение вектора returning_variable[0] будет равно 1
-				{
-					for (int i = 0; i < amount_elements; i++)
-					{
-						//visited[i] = 0;
-						//visited.pop_back();
-						//current_count_item[i] = 0;					// Счётчик количества дорог (родительской точки), то есть пока родительская точка не посетит все дочерние точки она не сделает шаг назад
-						current_count_item.pop_back();
-						//index.pop_back();
-					}
-					while (visited.size() != 0)
-					{
-						visited.pop_back();
-					}
-					while (index.size() != 0)
-					{
-						index.pop_back();
-					}
-					while (MyVector.size() != 0)
-					{
-						MyVector.pop_back();
-					}
-
-					zero_elements[0] = 0;
-
-					//break;
-				}
-				returning_variable[0] -= 1;
-				return;
-
-			}
-			else
-			{
-				int count1 = 0;
-				int count2 = 0;
-
-				for (int i = 0; i < amount_elements; i++)
-				{
-					if (arr_matrix_elements[index[MyVector.back()]][i] == 1 && visited[i] == 1)
-					{
-						++count1;
-					}
-				}
-
-				for (int i = 0; i < amount_elements; i++)
-				{
-					if (arr_matrix_elements[index[MyVector.back()]][i])
-					{
-						++count2;
-					}
-				}
-
-				if (count1 == count2)
-				{
-					MyStack.pop();
-					if (vector_return.size() == amount_elements)			// Удаление всех заданных переменных после прохода всех точек
-					{
-						for (int i = 0; i < amount_elements; i++)
-						{
-							//visited[i] = 0;
-							//visited.pop_back();
-							//current_count_item[i] = 0;					// Счётчик количества дорог (родительской точки), то есть пока родительская точка не посетит все дочерние точки она не сделает шаг назад
-							current_count_item.pop_back();
-							//index.pop_back();
-						}
-						while (visited.size() != 0)
-						{
-							visited.pop_back();
-						}
-						while (index.size() != 0)
-						{
-							index.pop_back();
-						}
-						while (MyVector.size() != 0)
-						{
-							MyVector.pop_back();
-						}
-
-						zero_elements[0] = 0;
-					}
-					return;
-				}
-			}
-		}
-
-
-
-
+		int temp;
 		MyVector1 = vector_return;
 
 		while (element_end != MyVector1.back())
@@ -491,7 +75,7 @@ public:
 
 		while (temp - 1 != element_start)
 		{
-			vector_return1.push_back(unit);			// ??????????
+			vector_return1.push_back(unit);
 
 			while (arr_matrix_elements[unit - 1][temp - 1] != 1)
 			{
@@ -502,8 +86,24 @@ public:
 			unit = MyVector1.back();
 		}
 
-		vector_return1.push_back(unit);				// ??????????
-		
+		vector_return1.push_back(unit);
+	}
+
+	/*3.2*/void clear_info()						// Очистка значения элементов, чтобы при следующем вызове метода traversal всё работало нормально
+	{
+		for (int i = 0; i < amount_elements; i++)	// Очистка вершин после их прохождения
+		{
+			visited1[i] = 0;
+		}
+		while (!vector_return.empty())				// Очистка значений элементов в массиве, который возвращает значения поочереди посещённых вершин
+		{
+			vector_return.pop_back();
+		}
+		while (!vector_return1.empty())				// Очистка значений элементов в массиве, который возвращает значения точки маршрута
+		{
+			vector_return1.pop_back();
+		}
+		work_one_time = 0;							// Здесь ноль, чтобы в следующий раз вернулось значение начальной вершины
 	}
 };
 
@@ -514,13 +114,12 @@ int main()
 {
 	setlocale(LC_ALL, "");
 
-	Search_width newdata;
+	Search_depth newdata;
 	int choose;
 	int amount; // Будущее количество элементов в матрице
 	int temp;	// Промежуточная переменная
 	int element_start;
 	int element_end;
-	//int** arr_matrix = new int*[];
 	int** arr_matrix;
 
 	do
@@ -528,9 +127,8 @@ int main()
 		cout << "\n\nВведите число\n"
 			<< "1 - ввести данные в матрицу\n"
 			<< "2 - вывод матрицы\n"
-			/* << "3 - вывод кратчайшего пути из одной точки в другую\n"*/
-			<< "4 - вывод обхода всех элементов\n"
-			<< "5 - закончить программу\n";
+			<< "3 - вывод обхода всех элементов\n"
+			<< "4 - закончить программу\n";
 
 		cin >> choose;
 
@@ -572,7 +170,7 @@ int main()
 			}
 		}
 
-		if (choose == 4)
+		if (choose == 3)
 		{
 			cout << "Из какой точки начать отсчёт: ";
 			cin >> element_start;
@@ -580,87 +178,33 @@ int main()
 			cout << "До какой точки показать маршрут: ";
 			cin >> element_end;
 
-			try
+			element_start = element_start - 1;
+
+			newdata.traversal(element_start);
+
+			cout << "Поочерёдно посещённые вершины: ";
+
+			for (int i = 0; i < newdata.vector_return.size(); i++)
 			{
-				newdata.traversal(element_start, element_end);
+				cout << newdata.vector_return[i] << " ";
 			}
-			catch (...)
+			cout << endl;
+
+			newdata.output_route(element_start, element_end);
+
+			cout << "Вывод маршрута из точки " << element_start + 1 << " в точку " << element_end << ": ";
+			for (int i = newdata.vector_return1.size() - 1; i > -1; i--)
 			{
-				cout << "Error" << endl;
-			}
-
-			//newdata.traversal(element_start, element_end);
-
-			/*while (!newdata.deque_return.empty())
-			{
-				cout << "Посещена вершина " << newdata.deque_return.front() << endl;
-				newdata.deque_return.pop_front();
-			}*/
-
-			int* arr_output_visited_top = new int[amount];
-
-			int* arr_path_of_passage = new int[amount];
-			int count = 0;
-
-			//vector <int> vector_return1;														??????????????????????????????????????
-			//vector_return1 = newdata.vector_return;
-
-
-
-
-			for (int i = 0; i < amount; i++)						// Блок вывода посещённых вершин
-			{
-				arr_output_visited_top[i] = newdata.vector_return.back();
-				newdata.vector_return.pop_back();
-			}
-			for (int i = amount - 1; i > -1; i--)
-			{
-				cout << "Посещена вершина " << arr_output_visited_top[i] << endl;
+				cout << newdata.vector_return1[i] << " ";
 			}
 
-
-
-
-			/*while (!newdata.stack_return.empty())
-			{
-				arr[count] = newdata.stack_return.top();
-				newdata.stack_return.pop();
-				cout << "Посещена вершина " << arr[count] << endl;
-				++count;
-			}*/
-
-			/*cout << endl << "Путь прохождения: " << endl;
-			while (!newdata.deque_return1.empty())
-			{
-				cout << " " << newdata.deque_return1.front();
-				newdata.deque_return1.pop_front();
-			}*/
-
-			int size = newdata.vector_return1.size();
-			//for (int i = size-1; i > -1; i--)
-			for (int i = 0; i < size; i++)
-			{
-				arr_path_of_passage[i] = newdata.vector_return1.back();
-				newdata.vector_return1.pop_back();
-			}
-			cout << endl << "Путь прохождения: " << endl;
-			for (int i = 0; i < size; i++)
-			{
-				cout << arr_path_of_passage[i] << " ";
-			}
-			/*while (!newdata.stack_return1.empty())
-			{
-				cout << " " << newdata.vector_return1.top();
-				newdata.vector_return1.pop();
-			}*/
+			newdata.clear_info();
 		}
 
-		if (choose == 5)
+		if (choose == 4)
 		{
 			exit(1);
 		}
-
-
 
 	} while (true);
 }
