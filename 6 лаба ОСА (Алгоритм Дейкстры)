@@ -1,0 +1,325 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <iomanip>
+#include <Windows.h>
+#include <utility>
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+class Dijkstra
+{
+private:
+	int amount_elements;		//кол-во элементов матрицы
+	int temp, minindex, min;
+	int begin_index = 0;
+	int* d;	// минимальное расстояние
+	int* v;	// посещённые вершины
+
+public:
+	int** arr_matrix_elements;	//массив элементов матрицы
+
+	/*arr3[15][15] = {{0, 3, 5, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+								{3, 0, 0, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+								{1, 0, 0, 3, 0, 0, 4, 0, 0, 0, 0, 0, 0, 4, 0},
+								{8, 4, 3, 0, 6, 7, 0, 0, 0, 0, 0, 0, 0, 2, 0},
+								{0, 5, 0, 6, 0, 5, 0, 0, 3, 0, 0, 0, 0, 0, 0},
+								{0, 0, 0, 7, 5, 0, 0, 8, 2, 4, 0, 0, 0, 6, 0},
+								{0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 6, 0},
+								{0, 0, 0, 0, 0, 8, 0, 0, 0, 5, 0, 6, 3, 9, 0},
+								{0, 0, 0, 0, 3, 2, 0, 0, 0, 7, 3, 0, 0, 0, 0},
+								{0, 0, 0, 0, 0, 4, 0, 5, 7, 0, 0, 6, 0, 0, 8},
+								{0, 0, 0, 0, 0, 0, 0, 0, 3, 5, 0, 0, 0, 0, 9},
+								{0, 0, 0, 0, 0, 0, 0, 6, 0, 6, 0, 0, 8, 0, 4},
+								{0, 0, 0, 0, 0, 0, 8, 3, 0, 0, 0, 8, 0, 0, 0},
+								{0, 0, 4, 2, 0, 6, 6, 9, 0, 0, 0, 0, 0, 0, 0},
+								{0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 9, 4, 0, 0, 0}
+	};*/
+
+	void input_matrix(int** arr_matrix, int amount)
+	{
+		arr_matrix_elements = new int* [amount];
+		arr_matrix_elements = arr_matrix;
+
+		amount_elements = amount;
+
+		cout << "Матрица сохранена" << endl;
+	}
+
+
+	vector<int> Myvector_ver;
+	vector<int> Myvector_d;
+
+	/*std::pair<vector<int>, vector<int>> find_way_matrix1(int first_element, int last_element)
+	{
+		d = new int[amount_elements]; // минимальное расстояние
+		v = new int[amount_elements]; // посещённые вершины
+		for (int i = 0; i < amount_elements; i++)
+		{
+			d[i] = 10000;
+			v[i] = 1;
+		}
+
+		begin_index = first_element - 1;
+		d[begin_index] = 0;
+
+		do {
+			minindex = 10000;
+			min = 10000;
+			for (int i = 0; i < amount_elements; i++)
+			{ // Если вершину ещё не обошли и вес меньше min
+				if ((v[i] == 1) && (d[i] < min))
+				{ // Переприсваиваем значения
+					min = d[i];
+					minindex = i;
+				}
+			}
+			// Добавляем найденный минимальный вес
+			// к текущему весу вершины
+			// и сравниваем с текущим минимальным весом вершины
+			if (minindex != 10000)
+			{
+				for (int i = 0; i < amount_elements; i++)
+				{
+					if (arr_matrix_elements[minindex][i] > 0)
+					{
+						temp = min + arr_matrix_elements[minindex][i];
+						if (temp < d[i])
+						{
+							d[i] = temp;
+						}
+					}
+				}
+				v[minindex] = 0;
+			}
+		} while (minindex < 10000);
+
+		int index = 0;
+		while (index != amount_elements)
+		{
+			Myvector_d.push_back(d[index]);
+			++index;
+		}
+
+
+
+		int* ver = new int[amount_elements]; // массив посещенных вершин
+		int end = last_element - 1; // индекс конечной вершины
+		ver[0] = end + 1; // начальный элемент - конечная вершина
+		int k = 1; // индекс предыдущей вершины
+		int weight = d[end]; // вес конечной вершины
+		while (end != first_element - 1) // пока не дошли до начальной вершины
+		{
+			for (int index1 = 0; index1 < amount_elements; index1++)// просматриваем все вершины
+			{
+				if (arr_matrix_elements[index1][end] != 0) // если связь есть
+				{
+					int temp = weight - arr_matrix_elements[index1][end]; // определяем вес пути из предыдущей вершины
+					if (temp == d[index1]) // если вес совпал с рассчитанным
+					{ // значит из этой вершины и был переход
+						weight = temp; // сохраняем новый вес
+						end = index1; // сохраняем предыдущую вершину
+						ver[k] = index1 + 1; // и записываем ее в массив
+						k++;
+					}
+				}
+			}
+		}
+
+		for (int i = k - 1; i >= 0; i--)
+			Myvector_ver.push_back(ver[i]);
+
+		return { Myvector_d, Myvector_ver };
+	}*/
+
+
+
+
+	vector<bool> traversal_top;
+	deque<int> MyDeque;
+	vector<int>::iterator ip;
+
+	// v[0] - вершина не посещена
+	// v[1] - вершина соседняя была увидена
+	// v[2] - вершина посещена
+
+	void find_way_matrix1(int first_element, int last_element)
+	{
+
+		d = new int[amount_elements]; // минимальное расстояние
+		v = new int[amount_elements]; // посещённые вершины
+		for (int i = 0; i < amount_elements; i++)
+		{
+			d[i] = 10000;
+			v[i] = 0;
+		}
+
+
+		begin_index = first_element - 1;
+		d[begin_index] = 0;
+		MyDeque.push_back(begin_index);
+
+		//while (traversal_top.size() != amount_elements)
+		/*while (!MyDeque.empty())
+		{
+			for (int i = 0; i < amount_elements; i++)				// Обход всех вершин
+			{
+				//if (v[i] == 0 && d[i] == 10000)						// Если вершина не пройдена
+				if (v[i] == 0)
+				{
+					//MyDeque.push_back(i);
+					MyDeque.pop_back();
+					for (int j = 0; j < amount_elements; j++)		// Проверка на наличие "троп"
+					{
+						if (arr_matrix_elements[i][j] > 0)			// Если есть "тропа" между элементами
+						{
+							if (d[j] >= arr_matrix_elements[i][j])
+							{
+								d[j] = arr_matrix_elements[i][j];
+								cout << d[j] << " ";
+							}
+
+							MyDeque.push_back(j);
+						}
+
+					}
+
+					v[i] = 1;
+				}
+			}
+		}*/
+
+		//while (!MyDeque.empty())
+		while (traversal_top.size() != amount_elements)
+		{
+			if ((v[MyDeque.front()] == 0) || ((v[MyDeque.front()] == 1)))										// Если вершина ещё не посещена
+			{
+				for (int i = 0; i < amount_elements; i++)
+				{
+					if ((arr_matrix_elements[MyDeque.front()][i] > 0) && ((v[i] == 0) || v[i] == 1))			// Если к соседней вершине есть "тропа" и она ещё не посещена
+					{
+						if (d[i] > arr_matrix_elements[MyDeque.front()][i])										// Если значение вершины больше значения предлагаемого пути (например путь из 1 в 3 < чем из 2 в 3)
+						{
+							d[i] = arr_matrix_elements[MyDeque.front()][i];										// то вершине присваивается значение предлагаемого пути
+							//v[i] = 1;
+						}
+						//cout << d[i] << " ";
+						//Sleep(2);
+						if (v[i] == 0)
+						{
+							MyDeque.push_back(i);													// Добавляет в очередь соседние вершины
+							v[i] = 1;
+							cout << d[i] << " ";
+						}
+
+					}
+				}
+				v[MyDeque.front()] = 2;															// Вершина посещена
+				traversal_top.push_back(1);														// Отслеживает посещённые вершины
+				MyDeque.pop_front();
+
+			}
+		}
+	}
+};
+
+int main()
+{
+	setlocale(LC_ALL, "Rus");
+	int choose;
+	Dijkstra newdata;
+
+	int amount; // Будущее количество элементов в матрице
+	int temp;	// Промежуточная переменная
+	//int** arr_matrix = new int*[];
+	int** arr_matrix;
+
+	do
+	{
+		cout << "\n\nВведите число\n"
+			<< "1 - ввести данные в матрицу\n"
+			<< "2 - вывод матрицы\n"
+			<< "3 - вывод кратчайших путей из любой точки во все точки и вывод точек, через которые проходит кратчайший путь из любой точки в любую точку\n"
+			<< "4 - закончить программу\n";
+
+		cin >> choose;
+
+		if (choose == 1)
+		{
+			cout << "Введите количество элементов в матрице: ";
+			cin >> amount;
+
+			arr_matrix = new int* [amount];
+			for (int i = 0; i < amount; i++)
+			{
+				arr_matrix[i] = new int[amount];
+			}
+
+			cout << endl;
+
+			for (int i = 0; i < amount; i++)
+			{
+				arr_matrix[i][i] = 0;
+				for (int j = i + 1; j < amount; j++) {
+					cout << "Введите расстояние " << i + 1 << " - " << j + 1 << ": ";
+					cin >> temp;
+					arr_matrix[i][j] = temp;
+					arr_matrix[j][i] = temp;
+				}
+			}
+			newdata.input_matrix(arr_matrix, amount);
+
+
+		}
+
+		if (choose == 2)
+		{
+			for (int i = 0; i < amount; i++)
+			{
+				for (int j = 0; j < amount; j++)
+					cout << newdata.arr_matrix_elements[i][j] << "\t";
+				cout << endl;
+			}
+		}
+
+		if (choose == 3)
+		{
+			int first_element;
+			int last_element;
+
+			cout << "Введите элемент с которого начать отсчёт: ";
+			cin >> first_element;
+
+			cout << "Введите элемент до которого провести счёт: ";
+			cin >> last_element;
+
+
+			newdata.find_way_matrix1(first_element, last_element);
+
+			/*std::pair<vector<int>, vector<int>> two_values = newdata.find_way_matrix1(first_element, last_element);
+
+			cout << "\nКратчайшие расстояния до вершин: \n";
+			for (int i = 0; i < amount; i++)
+				cout << "Из точки 1 в точку " << i + 1 << " = " << two_values.first[i] << endl;
+
+			cout << "\nВывод кратчайшего пути\n";
+			int counter = 0;
+			for (int i = 0; i < two_values.second.size(); i++)
+			{
+				cout << two_values.second[counter] << " ";
+				++counter;
+			}
+
+			newdata.Myvector_d.clear();
+			newdata.Myvector_ver.clear();*/
+		}
+
+		if (choose == 4)
+			exit(1);
+
+	} while (true);
+
+}
