@@ -1,0 +1,112 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+/*void relative_price(vector <vector<int>> weights_and_cost, int amount)
+{
+    float* sort_relative_price = new float[amount];
+
+    for (int i = 0; i < amount; i++)
+    {
+        sort_relative_price[i] = (float)(weights_and_cost[i][2] / weights_and_cost[i][1]);
+    }
+
+    sort(sort_relative_price, sort_relative_price + amount);
+
+    for (int i = 0; i < amount; i++)
+        cout << sort_relative_price[i] << " ";
+
+    //if (sort_relative_price[0] > sort_relative_price[1])
+    //    cout << "первый больше";
+    //else if (sort_relative_price[0] < sort_relative_price[1])
+    //    cout << "второй больше";
+    //else if (sort_relative_price[0] == sort_relative_price[1])
+    //    cout << "они равны";
+
+
+}*/
+
+void relative_price(vector <vector<int>> weights_and_cost, int amount)
+{
+    vector <float> sort_relative_price;
+
+    for (int i = 0; i < amount; i++)
+    {
+        sort_relative_price.push_back((float)(weights_and_cost[i][2] / weights_and_cost[i][1]));
+    }
+
+    sort(sort_relative_price.begin(), sort_relative_price.end());
+
+    for (int i = 0; i < amount; i++)
+        cout << sort_relative_price[i] << " ";
+
+    /*if (sort_relative_price[0] > sort_relative_price[1])
+        cout << "первый больше";
+    else if (sort_relative_price[0] < sort_relative_price[1])
+        cout << "второй больше";
+    else if (sort_relative_price[0] == sort_relative_price[1])
+        cout << "они равны";*/
+
+
+
+}
+
+void Find_greedy_result(vector <float> sort_relative_price, vector <vector<int>> weights_and_cost, int critical_weight)
+{
+
+}
+
+int main()
+{
+    setlocale(LC_ALL, "Rus");
+
+    int amount;
+    int critical_weight;
+    vector <vector <int>> names_weights_and_cost;
+
+    cout << "Введите количество предметов: ";
+    cin >> amount;
+
+    cout << "Введите макимальный вес вещей в рюкзаке: ";
+    cin >> critical_weight;
+
+    cout << "Введите вес и стоимость вещей: " << endl;
+    for (int i = 0; i < amount; i++)
+    {
+        vector <int> temp;
+        int name;
+        int weight;
+        int price;
+
+        for (int j = 0; j < 3; j++)
+        {
+            if (j == 0)
+            {
+                cout << "Назвние " << i + 1 << " вещи: ";
+                cin >> name;
+                temp.push_back(name);
+            }
+            if (j == 1)
+            {
+                cout << "Вес " << i + 1 << " вещи: ";
+                cin >> weight;
+                temp.push_back(weight);
+            }
+            if (j == 2)
+            {
+                cout << "Стоимость " << i + 1 << " вещи: ";
+                cin >> price;
+                temp.push_back(price);
+            }
+        }
+
+        cout << endl;
+        names_weights_and_cost.push_back(temp);
+    }
+
+
+    relative_price(names_weights_and_cost, amount);
+}
+
+
