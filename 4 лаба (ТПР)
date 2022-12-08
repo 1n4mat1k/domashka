@@ -1,0 +1,119 @@
+#include <iostream>
+using namespace std;
+
+void printMatrix(int nV, int *matrix[])
+{
+    for (int i = 0; i < nV; i++)
+    {
+        for (int j = 0; j < nV; j++)
+        {
+            if (matrix[i][j] == 999)
+                cout << "INF" << "\t";
+
+            /*if (matrix[i][j] == 0)
+            {
+                matrix[i][j] == 999;
+                cout << "INF" << "\t";
+            }*/
+            else
+                cout << matrix[i][j] << "\t";
+        }
+        cout << "\n";
+    }
+    cout << "\n";
+}
+
+void Find(int amount, int *matrix[]) {
+    for (int k = 0; k < amount; k++) {
+        for (int i = 0; i < amount; i++) {
+            for (int j = 0; j < amount; j++) {
+                matrix[i][j] = min(matrix[i][j], matrix[i][k] + matrix[k][j]);
+            }
+        }
+    }
+    printMatrix(amount, matrix);
+}
+
+
+int main()
+{
+    setlocale(LC_ALL, "Rus");
+    int numV;
+
+    cout << "Введите количество вершин " << endl;
+    cin >> numV;
+
+    int **graph = new int* [numV];
+    {
+        for (int i = 0; i < numV; i++)
+        {
+            graph[i] = new int[numV];
+        }
+    }
+
+    cout << "Введите связи между вершинами: " << endl;
+
+   /* for (int i = 0; i < numV; i++)
+    {
+        cout << "Из вершины: " << i << endl;
+
+        for (int j = 0; j < numV; j++)
+        {
+            int dir, cost;
+
+            if (i == j)
+            {
+                graph[i][j] = 0;
+                continue;
+            }
+
+            cout << "В вершину: ";
+            cin >> dir;
+            cout << "Вес: ";
+            cin >> cost;
+
+            graph[i][dir] = cost;
+        }
+    }*/
+
+    for (int i = 0; i < numV; i++)
+    {
+        for (int j = 0; j < numV; j++)
+        {          
+            if (i == j)
+            {
+                graph[i][j] = 0;
+                continue;
+            }
+
+            cout << "Путь " << i + 1;
+            cout << " -> " << j + 1 << ": ";
+            int dir, cost;
+
+            /*if (i == j)
+            {
+                graph[i][j] = 0;
+                continue;
+            }*/
+            cin >> cost;
+
+            if (cost == 0)
+                cost = 999;
+
+            graph[i][j] = cost;
+        }
+    }
+
+    printMatrix(numV, graph);
+    Find(numV, graph);
+
+
+
+
+    for (int i = 0; i < numV; i++)
+    {
+        delete[] graph[i];
+    }
+
+    delete [] graph;
+}
