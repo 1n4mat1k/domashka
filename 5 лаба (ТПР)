@@ -1,0 +1,219 @@
+// lab5 (Decision theory, greedy algorithm, 2 attempt).cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
+//
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+void Find_greedy_result(vector <string> name, vector <int> weight, vector <int> price, int amount, int critical_weight, vector <vector <float>> sort_relative_price)
+{
+    int total_weight = 0;
+
+
+    /*while (total_weight < critical_weight)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            while (total_weight < critical_weight)
+            {
+                total_weight += weight[i];
+
+                if (total_weight + weight[i] > critical_weight)
+                    break;
+            }
+        }
+    }*/
+
+    /*for (int i = 0; i < amount; i++)
+    {
+        while (total_weight < critical_weight)
+        {
+            total_weight += weight[i];
+
+            if (total_weight + weight[i] > critical_weight)
+                break;
+        }
+    }*/
+
+    vector <string> name_of_thing_in_backpack;
+    vector <int> amount_of_things_in_backpack;
+
+    for (int i = 0; i < amount; i++)
+    {
+        amount_of_things_in_backpack.push_back(0);          // Добавление названий всех предметов в рюкзаке
+    }
+
+    for (int i = 0; i < amount; i++)
+        name_of_thing_in_backpack.push_back(name[sort_relative_price[i][1]]);
+
+    for (int i = 0; i < amount; i++)
+    {
+        while (total_weight < critical_weight)
+        {
+            if (total_weight + weight[sort_relative_price[i][1]] > critical_weight)
+            {
+                break;
+            }
+
+            amount_of_things_in_backpack[i] += 1;
+
+            total_weight += weight[sort_relative_price[i][1]];
+        }
+    }
+
+    cout << endl;
+    cout << "Итоговый вес предметов в рюкзаке: " << total_weight << endl;
+    cout << "Количество и названия вещей в рюкзаке: " << endl;
+    for (int i = 0; i < amount; i++)
+    {
+        cout << "x" << amount_of_things_in_backpack[i] << " " << name_of_thing_in_backpack[i] << endl;
+    }
+}
+
+/*void relative_price(vector <string> name, vector <int> weight, vector <int> price, int amount, int critical_weight)
+{
+    vector <float> sort_relative_price_ascending_order;
+    vector <float> sort_relative_price_descending_order;
+
+    for (int i = 0; i < amount; i++)
+    {
+        sort_relative_price_ascending_order.push_back((float)(price[i] / weight[i]));
+    }
+
+    sort(sort_relative_price_ascending_order.begin(), sort_relative_price_ascending_order.end());                   // сортировка относительной цены от меньшего к большему
+
+    //for (int i = 0; i < amount; i++) 
+    //    cout << sort_relative_price_ascending_order[i] << " ";
+
+    for (int i = 0; i < amount; i++)                                                                                // сортировка относительной цены от большего к меньшему
+        sort_relative_price_descending_order.push_back(sort_relative_price_ascending_order[amount - 1 - i]); 
+
+    for (int i = 0; i < amount; i++)
+        cout << sort_relative_price_descending_order[i] << " ";
+
+    //if (sort_relative_price[0] > sort_relative_price[1])
+    //    cout << "первый больше";
+    //else if (sort_relative_price[0] < sort_relative_price[1])
+    //    cout << "второй больше";
+    //else if (sort_relative_price[0] == sort_relative_price[1])
+    //    cout << "они равны";
+
+
+    Find_greedy_result(name, weight, price, amount, critical_weight, sort_relative_price_descending_order);
+
+}*/
+
+void relative_price(vector <string> name, vector <int> weight, vector <int> price, int amount, int critical_weight)
+{
+    vector <vector <float>> sort_relative_price_ascending_order;            // Сортировка по возрасатнию
+    vector <vector <float>> sort_relative_price_descending_order;           // Сортировка по убыванию
+
+    for (int i = 0; i < amount; i++)
+    {
+        vector <float> temp;
+        for (int j = 0; j < 2; j++)
+        {
+            if (j == 0)                                         
+                temp.push_back((float)(price[i] / weight[i]));  // 0 - относительная цена
+
+            if (j == 1) 
+                temp.push_back(i);                              // 1 - индекс элемента
+        }
+
+        sort_relative_price_ascending_order.push_back(temp);
+    }
+
+    sort(sort_relative_price_ascending_order.begin(), sort_relative_price_ascending_order.end());                   // сортировка относительной цены от меньшего к большему
+
+    cout << "Сортировка по возрастанию относительных цен предметов: ";
+    for (int i = 0; i < amount; i++)
+        cout << sort_relative_price_ascending_order[i][0] << " ";
+    cout << endl;
+
+    cout << "Сортировка по убыванию относительных цен предметов: ";
+    for (int i = 0; i < amount; i++)                                                                                // сортировка относительной цены от большего к меньшему
+    {
+        vector <float> temp;
+        for (int j = 0; j < 2; j++)
+        {
+            if (j == 0)
+                temp.push_back((float)((sort_relative_price_ascending_order[amount - 1 - i][0])));
+
+            if (j == 1)
+                temp.push_back((int)(sort_relative_price_ascending_order[amount - 1 - i][1]));
+            //sort_relative_price_descending_order.push_back(sort_relative_price_ascending_order[amount - 1 - i][0]);
+        }
+        sort_relative_price_descending_order.push_back(temp);
+    }
+
+    for (int i = 0; i < amount; i++)
+        cout << sort_relative_price_descending_order[i][0] << " ";
+    cout << endl;
+
+
+    /*for (int i = 0; i < amount; i++)
+        sort_relative_price_descending_order.push_back(sort_relative_price_ascending_order[amount - 1 - i]);
+
+    for (int i = 0; i < amount; i++)
+        cout << sort_relative_price_descending_order[i] << " ";*/
+
+    /*if (sort_relative_price[0] > sort_relative_price[1])
+        cout << "первый больше";
+    else if (sort_relative_price[0] < sort_relative_price[1])
+        cout << "второй больше";
+    else if (sort_relative_price[0] == sort_relative_price[1])
+        cout << "они равны";*/
+
+
+    Find_greedy_result(name, weight, price, amount, critical_weight, sort_relative_price_descending_order);
+
+}
+
+
+int main()
+{
+    setlocale(LC_ALL, "Rus");
+
+    int amount;
+    int critical_weight;
+
+    vector <string> name;
+    vector <int> weight;
+    vector <int> price;
+
+
+    cout << "Введите количество предметов: ";
+    cin >> amount;
+
+    cout << "Введите макимальный вес вещей в рюкзаке: ";
+    cin >> critical_weight;
+
+    cout << "Введите вес и стоимость вещей: " << endl;
+    for (int i = 0; i < amount; i++)
+    {
+        string name1;
+        int weight1;
+        int price1;
+
+
+        cout << "Название " << i + 1 << " вещи: ";
+        cin >> name1;
+        name.push_back(name1);
+
+        cout << "Вес " << i + 1 << " вещи: ";
+        cin >> weight1;
+        weight.push_back(weight1);
+
+        cout << "Стоимость " << i + 1 << " вещи: ";
+        cin >> price1;
+        price.push_back(price1);
+
+        cout << endl;
+    }
+
+    relative_price(name, weight, price, amount, critical_weight);
+
+    cout << endl << endl;
+}
+
